@@ -247,15 +247,13 @@ export default function BeyondPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="bg-white/50 border border-black/10 rounded-2xl overflow-hidden mb-12"
           >
-            <div className="grid md:grid-cols-2">
-              <div className="relative h-64 md:h-80">
-                <Image
-                  src="/images/ai-platform-scene.jpg"
-                  alt="AI-driven operations center"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+            <div className="relative h-64 md:h-80 w-full">
+              <Image
+                src="/images/team-collaboration.jpg"
+                alt="Team collaborating with AI-powered dashboards"
+                fill
+                className="object-cover"
+              />
             </div>
           </motion.div>
 
