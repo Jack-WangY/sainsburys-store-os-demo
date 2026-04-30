@@ -7,64 +7,88 @@ import { AlertStrip } from '@/components/house-os/alert-strip'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import {
-  Utensils,
-  Film,
-  Receipt,
-  Users,
+  FileText,
+  CheckCircle2,
+  AlertTriangle,
+  Clock,
+  PoundSterling,
+  TrendingUp,
   Download,
   Share2,
-  Check,
-  Clock,
-  AlertTriangle,
-  Lock,
-  Star,
+  ArrowRight,
+  Filter,
 } from 'lucide-react'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  Area,
+  AreaChart,
+} from 'recharts'
 
-const foodNetSales = [
-  { property: '180 House', gross: 18420, voids: 320, net: 18100, delta: 12.4 },
-  { property: 'Shoreditch House', gross: 15680, voids: 180, net: 15500, delta: 8.2 },
-  { property: 'White City House', gross: 12340, voids: 240, net: 12100, delta: -2.1 },
-  { property: 'Soho Farmhouse', gross: 28900, voids: 400, net: 28500, delta: 15.6 },
-  { property: '76 Dean Street', gross: 14200, voids: 120, net: 14080, delta: 5.8 },
-  { property: 'High Road House', gross: 9800, voids: 80, net: 9720, delta: 3.2 },
-  { property: 'Electric House', gross: 11300, voids: 140, net: 11160, delta: 7.4 },
-  { property: 'Little House Mayfair', gross: 8900, voids: 60, net: 8840, delta: 4.1 },
-  { property: 'Little House Balham', gross: 6200, voids: 40, net: 6160, delta: 2.8 },
+// 3-way match status types
+type MatchStatus = 'matched' | 'variance' | 'pending' | 'held'
+
+interface Invoice {
+  id: string
+  supplier: string
+  invoice: number
+  po: number
+  grn: number
+  variance: number
+  status: MatchStatus
+  ageDays: number
+  category: string
+}
+
+const recentInvoices: Invoice[] = [
+  { id: 'BRT-99412', supplier: 'Britvic',                  invoice: 184200, po: 179800, grn: 184200, variance: 4400,   status: 'variance',  ageDays: 3, category: 'Soft drinks' },
+  { id: 'CCE-77185', supplier: 'Coca-Cola Enterprises',    invoice: 412600, po: 412600, grn: 412600, variance: 0,      status: 'matched',   ageDays: 1, category: 'Soft drinks' },
+  { id: 'CRA-50028', supplier: 'Cranswick',                invoice: 286400, po: 286400, grn: 285800, variance: -600,   status: 'matched',   ageDays: 1, category: 'Fresh meat' },
+  { id: 'ABF-66291', supplier: 'ABF (Allied Bakeries)',    invoice: 158700, po: 156000, grn: 156000, variance: 2700,   status: 'variance',  ageDays: 2, category: 'Bakery' },
+  { id: 'MUL-33408', supplier: 'Müller UK',                invoice: 224900, po: 224900, grn: 224900, variance: 0,      status: 'matched',   ageDays: 1, category: 'Dairy' },
+  { id: 'NES-81170', supplier: 'Nestlé UK',                invoice: 318200, po: 318200, grn: 312800, variance: -5400,  status: 'held',      ageDays: 4, category: 'Confectionery' },
+  { id: '2SF-44712', supplier: '2 Sisters Food Group',     invoice: 196800, po: 196800, grn: 196800, variance: 0,      status: 'matched',   ageDays: 1, category: 'Poultry' },
+  { id: 'GRC-58820', supplier: 'Greencore',                invoice: 142100, po: 138400, grn: 138400, variance: 3700,   status: 'variance',  ageDays: 2, category: 'Food-to-go' },
+  { id: 'BAK-71294', supplier: 'Bakkavor',                 invoice: 261400, po: 261400, grn: 261400, variance: 0,      status: 'matched',   ageDays: 1, category: 'Chilled prepared' },
+  { id: 'HFG-62047', supplier: 'Hilton Food Group',        invoice: 384200, po: 384200, grn: 380900, variance: -3300,  status: 'pending',   ageDays: 1, category: 'Fresh meat' },
+  { id: 'MUL-33502', supplier: 'Müller UK',                invoice: 88400,  po: 88400,  grn: 88400,  variance: 0,      status: 'matched',   ageDays: 1, category: 'Dairy' },
+  { id: 'CCE-77204', supplier: 'Coca-Cola Enterprises',    invoice: 96200,  po: 96200,  grn: 96200,  variance: 0,      status: 'matched',   ageDays: 1, category: 'Soft drinks' },
 ]
 
-const cinemaGymSales = [
-  { property: 'Electric House', type: 'Cinema', tickets: 124, revenue: 3720 },
-  { property: 'Shoreditch House', type: 'Cinema', tickets: 86, revenue: 2580 },
-  { property: 'White City House', type: 'Cinema', tickets: 68, revenue: 2040 },
-  { property: 'Soho Farmhouse', type: 'Gym', sessions: 42, revenue: 2100 },
-  { property: '180 House', type: 'Gym', sessions: 38, revenue: 1900 },
-  { property: 'High Road House', type: 'Gym', sessions: 28, revenue: 1400 },
+// 14-day auto-match % trend
+const autoMatchTrend = [
+  { day: 'Apr 17', pct: 78 },
+  { day: 'Apr 18', pct: 79 },
+  { day: 'Apr 19', pct: 81 },
+  { day: 'Apr 20', pct: 82 },
+  { day: 'Apr 21', pct: 81 },
+  { day: 'Apr 22', pct: 84 },
+  { day: 'Apr 23', pct: 85 },
+  { day: 'Apr 24', pct: 86 },
+  { day: 'Apr 25', pct: 88 },
+  { day: 'Apr 26', pct: 89 },
+  { day: 'Apr 27', pct: 90 },
+  { day: 'Apr 28', pct: 91 },
+  { day: 'Apr 29', pct: 92 },
+  { day: 'Apr 30', pct: 93 },
 ]
 
-const vipComps = [
-  { guest: 'Industry VIP — Music', property: 'White City House', table: 'Table 8', time: '20:30', value: 480, auth: 'GM Park', code: 'COMP-PR' },
-  { guest: 'Tech Founder Guest', property: 'Shoreditch House', table: 'Private Dining', time: '19:45', value: 380, auth: 'GM Williams', code: 'COMP-CORP' },
-  { guest: 'Member Anniversary', property: 'Soho Farmhouse', table: 'Table 14', time: '21:00', value: 240, auth: 'F&B Lead', code: 'COMP-EXEC' },
+// Top exception suppliers
+const exceptionSuppliers = [
+  { supplier: 'Nestlé UK',    open: 3, value: 18600 },
+  { supplier: 'Britvic',      open: 2, value: 9800  },
+  { supplier: 'Greencore',    open: 2, value: 7200  },
+  { supplier: 'ABF Bakeries', open: 1, value: 2700  },
+  { supplier: 'Hilton Food',  open: 1, value: 3300  },
 ]
 
-const timeline = [
-  { icon: Check, label: 'All 9 revenue audits closed remotely', meta: '02:41 GMT', variant: 'green' as const },
-  { icon: Check, label: 'Oracle Fusion journals posted', meta: '02:43 GMT', variant: 'green' as const },
-  { icon: AlertTriangle, label: 'White City bar variance flagged', meta: '01:28 GMT', variant: 'amber' as const },
-  { icon: Check, label: 'Record F&B day at Farmhouse — £28,500 net', meta: 'Yesterday', variant: 'green' as const },
-  { icon: Clock, label: 'Weekly inventory due Friday', meta: 'Upcoming', variant: 'blue' as const },
-]
-
-const staffAllowances = [
-  { property: 'Soho Farmhouse', amount: 420, meals: 14 },
-  { property: 'Shoreditch House', amount: 380, meals: 12 },
-  { property: '180 House', amount: 340, meals: 11 },
-  { property: 'White City House', amount: 280, meals: 9 },
-  { property: 'Others (5)', amount: 760, meals: 25 },
-]
-
-export default function DailyOpsReport() {
-  const [hasAccess] = useState(true) // Simulating role access
+export default function InvoiceMatchDashboard() {
+  const [statusFilter, setStatusFilter] = useState<MatchStatus | 'all'>('all')
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat('en-GB', {
@@ -73,19 +97,39 @@ export default function DailyOpsReport() {
       minimumFractionDigits: 0,
     }).format(value)
 
+  const filteredInvoices = statusFilter === 'all'
+    ? recentInvoices
+    : recentInvoices.filter(i => i.status === statusFilter)
+
+  const totalToday        = 4218 // total invoices today across estate
+  const autoMatched       = 3923
+  const heldExceptions    = 142
+  const slaBreaches       = 38
+  const autoMatchPct      = Math.round((autoMatched / totalToday) * 1000) / 10
+  const trappedCapital    = 4_240_000 // £4.24M working capital trapped in exceptions
+
+  const statusBadge = (status: MatchStatus) => {
+    switch (status) {
+      case 'matched':  return <StatusBadge variant="green" icon={<CheckCircle2 className="w-3 h-3" />}>Auto-matched</StatusBadge>
+      case 'variance': return <StatusBadge variant="amber" icon={<AlertTriangle className="w-3 h-3" />}>Variance</StatusBadge>
+      case 'pending':  return <StatusBadge variant="blue"  icon={<Clock className="w-3 h-3" />}>Pending GRN</StatusBadge>
+      case 'held':     return <StatusBadge variant="red"   icon={<AlertTriangle className="w-3 h-3" />}>Held</StatusBadge>
+    }
+  }
+
   return (
     <div className="space-y-6">
-      {/* Report Header */}
+      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[rgba(255,255,255,0.07)]">
         <div>
-          <h1 className="font-serif text-2xl text-text">Daily Operations Report</h1>
+          <h1 className="font-serif text-2xl text-text">Invoice → PO → GRN — 3-Way Match</h1>
           <p className="text-sm text-text-muted mt-1">
-            Tuesday 7 April 2026 · Generated 06:30 GMT · Auto-distributed
+            Argos AI automated 3-way match · trading day {new Date().toLocaleDateString('en-GB')} · feeding SAP S/4 HANA
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <StatusBadge variant="green" icon={<Check className="w-3 h-3" />}>
-            Oracle Fusion Posted
+          <StatusBadge variant="green" icon={<CheckCircle2 className="w-3 h-3" />}>
+            SAP Posting Live
           </StatusBadge>
           <Button variant="outline" size="sm" className="border-[rgba(255,255,255,0.12)] text-text-muted hover:bg-surface-3">
             <Share2 className="w-4 h-4 mr-2" />
@@ -93,254 +137,204 @@ export default function DailyOpsReport() {
           </Button>
           <Button variant="outline" size="sm" className="border-[rgba(255,255,255,0.12)] text-text-muted hover:bg-surface-3">
             <Download className="w-4 h-4 mr-2" />
-            Export PDF
+            Export
           </Button>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* KPI Strip */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <KPICard
-          title="Total F&B Net Sales"
-          icon={<Utensils className="w-3.5 h-3.5" />}
-          value="£122,020"
-          delta={{ direction: 'up', value: '8.4%', label: 'vs yesterday' }}
+          title="Invoices Today"
+          icon={<FileText className="w-3.5 h-3.5" />}
+          value={totalToday.toLocaleString()}
+          label="Across all suppliers"
+          delta={{ direction: 'up', value: '6.2%', label: 'vs LY' }}
         />
         <KPICard
-          title="Cinema & Gym Sales"
-          icon={<Film className="w-3.5 h-3.5" />}
-          value="£14,380"
-          delta={{ direction: 'up', value: '12.1%' }}
+          title="Auto-matched"
+          icon={<CheckCircle2 className="w-3.5 h-3.5" />}
+          value={`${autoMatchPct}%`}
+          label={`${autoMatched.toLocaleString()} of ${totalToday.toLocaleString()}`}
+          delta={{ direction: 'up', value: '+15pts', label: '90-day' }}
         />
         <KPICard
-          title="Total Comps & Voids"
-          icon={<Receipt className="w-3.5 h-3.5" />}
-          value="£9,740"
-          label="3.4% of gross revenue"
+          title="Held in Exception"
+          icon={<AlertTriangle className="w-3.5 h-3.5" />}
+          value={heldExceptions.toString()}
+          label="Awaiting human review"
+          delta={{ direction: 'down', value: '-22%', label: 'WoW' }}
         />
         <KPICard
-          title="Staff Allowances"
-          icon={<Users className="w-3.5 h-3.5" />}
-          value="£2,180"
-          label="9 properties"
+          title="Working Capital Trapped"
+          icon={<PoundSterling className="w-3.5 h-3.5" />}
+          value="£4.24M"
+          label="In open variance queue"
+          delta={{ direction: 'down', value: '-£1.6M', label: 'vs Mar' }}
+        />
+        <KPICard
+          title="SLA Breaches"
+          icon={<Clock className="w-3.5 h-3.5" />}
+          value={slaBreaches.toString()}
+          label=">3 days unresolved"
         />
       </div>
 
-      {/* Main content grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Food Net Sales */}
-        <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-5">
-          <h3 className="font-serif text-lg text-text mb-4">Food Net Sales</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[rgba(255,255,255,0.07)]">
-                  <th className="text-left uppercase-label text-text-faint py-3 px-2">Property</th>
-                  <th className="text-right uppercase-label text-text-faint py-3 px-2">Gross</th>
-                  <th className="text-right uppercase-label text-text-faint py-3 px-2">Voids</th>
-                  <th className="text-right uppercase-label text-text-faint py-3 px-2">Net</th>
-                  <th className="text-right uppercase-label text-text-faint py-3 px-2">vs Prev</th>
-                </tr>
-              </thead>
-              <tbody>
-                {foodNetSales.map((row) => (
-                  <tr key={row.property} className="border-b border-[rgba(255,255,255,0.05)] hover:bg-surface-2 transition-colors">
-                    <td className="py-2.5 px-2 text-sm text-text">{row.property}</td>
-                    <td className="py-2.5 px-2 text-sm text-text-muted text-right tabular-nums">{formatCurrency(row.gross)}</td>
-                    <td className="py-2.5 px-2 text-sm text-red text-right tabular-nums">-{formatCurrency(row.voids)}</td>
-                    <td className="py-2.5 px-2 text-sm text-text font-medium text-right tabular-nums">{formatCurrency(row.net)}</td>
-                    <td className="py-2.5 px-2 text-right">
-                      <StatusBadge variant={row.delta > 0 ? 'green' : 'red'}>
-                        {row.delta > 0 ? '+' : ''}{row.delta}%
-                      </StatusBadge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr className="bg-surface-2">
-                  <td className="py-3 px-2 text-sm text-text font-medium">Total</td>
-                  <td className="py-3 px-2 text-sm text-text-muted text-right tabular-nums font-medium">
-                    {formatCurrency(foodNetSales.reduce((sum, r) => sum + r.gross, 0))}
-                  </td>
-                  <td className="py-3 px-2 text-sm text-red text-right tabular-nums font-medium">
-                    -{formatCurrency(foodNetSales.reduce((sum, r) => sum + r.voids, 0))}
-                  </td>
-                  <td className="py-3 px-2 text-sm text-gold text-right tabular-nums font-medium">
-                    {formatCurrency(foodNetSales.reduce((sum, r) => sum + r.net, 0))}
-                  </td>
-                  <td></td>
-                </tr>
-              </tfoot>
-            </table>
+      {/* Trend chart + exception drill-down */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-serif text-lg text-text">Auto-Match % — 14-Day Trend</h3>
+            <StatusBadge variant="green" icon={<TrendingUp className="w-3 h-3" />}>
+              +15pts since rollout
+            </StatusBadge>
+          </div>
+          <div className="h-[260px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={autoMatchTrend}>
+                <defs>
+                  <linearGradient id="matchGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#c9a84c" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#c9a84c" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <XAxis dataKey="day" stroke="#8a8278" fontSize={11} />
+                <YAxis stroke="#8a8278" fontSize={11} domain={[70, 100]} tickFormatter={(v) => `${v}%`} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#1a1815',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '8px',
+                  }}
+                  formatter={(value: number) => [`${value}%`, 'Auto-matched']}
+                />
+                <Area type="monotone" dataKey="pct" stroke="#c9a84c" strokeWidth={2} fill="url(#matchGradient)" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Cinema & Gym Sales */}
-        <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-5">
-          <h3 className="font-serif text-lg text-text mb-4">Cinema & Gym Sales</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[rgba(255,255,255,0.07)]">
-                  <th className="text-left uppercase-label text-text-faint py-3 px-2">Property</th>
-                  <th className="text-left uppercase-label text-text-faint py-3 px-2">Type</th>
-                  <th className="text-right uppercase-label text-text-faint py-3 px-2">Tickets/Sessions</th>
-                  <th className="text-right uppercase-label text-text-faint py-3 px-2">Revenue</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cinemaGymSales.map((row, i) => (
-                  <tr key={i} className="border-b border-[rgba(255,255,255,0.05)] hover:bg-surface-2 transition-colors">
-                    <td className="py-2.5 px-2 text-sm text-text">{row.property}</td>
-                    <td className="py-2.5 px-2">
-                      <StatusBadge variant={row.type === 'Cinema' ? 'blue' : 'green'}>
-                        {row.type}
-                      </StatusBadge>
-                    </td>
-                    <td className="py-2.5 px-2 text-sm text-text-muted text-right tabular-nums">
-                      {row.tickets || row.sessions}
-                    </td>
-                    <td className="py-2.5 px-2 text-sm text-text font-medium text-right tabular-nums">
-                      {formatCurrency(row.revenue)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-serif text-lg text-text">Top Exception Suppliers</h3>
+            <StatusBadge variant="amber">{exceptionSuppliers.reduce((s, r) => s + r.open, 0)} open</StatusBadge>
           </div>
-        </div>
-      </div>
-
-      {/* VIP / On the House Section */}
-      <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-5">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <Star className="w-5 h-5 text-gold" />
-            <h3 className="font-serif text-lg text-text">VIP / On the House</h3>
-          </div>
-          <StatusBadge variant="gold">GM+ Access Only</StatusBadge>
-        </div>
-
-        {hasAccess ? (
-          <>
-            <AlertStrip
-              variant="info"
-              title="Confidential"
-              description="Restricted to GM+, Finance Director, and ExCo. Not included in distributed reports."
-              dismissible={false}
-              className="mb-4"
-            />
-
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-[rgba(255,255,255,0.07)]">
-                    <th className="text-left uppercase-label text-text-faint py-3 px-2">Guest</th>
-                    <th className="text-left uppercase-label text-text-faint py-3 px-2">Property</th>
-                    <th className="text-right uppercase-label text-text-faint py-3 px-2">Value</th>
-                    <th className="text-left uppercase-label text-text-faint py-3 px-2">Auth</th>
-                    <th className="text-left uppercase-label text-text-faint py-3 px-2">GL Code</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {vipComps.map((row, i) => (
-                    <tr key={i} className="border-b border-[rgba(255,255,255,0.05)] hover:bg-surface-2 transition-colors">
-                      <td className="py-2.5 px-2">
-                        <div className="flex items-center gap-2">
-                          <Star className="w-3 h-3 text-gold" />
-                          <span className="text-sm text-text">{row.guest}</span>
-                        </div>
-                        <span className="text-xs text-text-muted">{row.table} · {row.time}</span>
-                      </td>
-                      <td className="py-2.5 px-2 text-sm text-text-muted">{row.property}</td>
-                      <td className="py-2.5 px-2 text-sm text-gold font-medium text-right tabular-nums">
-                        {formatCurrency(row.value)}
-                      </td>
-                      <td className="py-2.5 px-2 text-sm text-text-muted">{row.auth}</td>
-                      <td className="py-2.5 px-2">
-                        <StatusBadge variant="amber">{row.code}</StatusBadge>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr className="bg-surface-2">
-                    <td colSpan={2} className="py-3 px-2 text-sm text-text font-medium">Total VIP Comps</td>
-                    <td className="py-3 px-2 text-sm text-gold text-right tabular-nums font-medium">
-                      {formatCurrency(vipComps.reduce((sum, r) => sum + r.value, 0))}
-                    </td>
-                    <td colSpan={2}></td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <p className="text-xs text-text-faint mt-4">
-              VIP comps are logged via Shift Dashboard and flow into this report automatically.
-            </p>
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Lock className="w-10 h-10 text-text-faint mb-3" />
-            <p className="text-text-muted">This section requires GM or above access.</p>
-          </div>
-        )}
-      </div>
-
-      {/* Bottom grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* GM Briefing Timeline */}
-        <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-5">
-          <h3 className="font-serif text-lg text-text mb-4">GM Briefing</h3>
-          <div className="space-y-1">
-            {timeline.map((item, i) => {
-              const Icon = item.icon
-              return (
-                <div key={i} className="relative flex gap-4 pb-4">
-                  {i !== timeline.length - 1 && (
-                    <div className="absolute left-[11px] top-6 bottom-0 w-px bg-[rgba(255,255,255,0.07)]" />
-                  )}
-                  <div
-                    className={cn(
-                      "w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 z-10",
-                      item.variant === 'green' && "bg-green",
-                      item.variant === 'amber' && "bg-amber",
-                      item.variant === 'blue' && "bg-blue"
-                    )}
-                  >
-                    <Icon className="w-3 h-3 text-background" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-text">{item.label}</p>
-                    <p className="text-xs text-text-faint">{item.meta}</p>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Staff Allowances */}
-        <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-5">
-          <h3 className="font-serif text-lg text-text mb-4">Staff Allowances</h3>
           <div className="space-y-3">
-            {staffAllowances.map((row, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-surface-2">
+            {exceptionSuppliers.map((row) => (
+              <div key={row.supplier} className="flex items-center justify-between p-3 rounded-lg bg-surface-2">
                 <div>
-                  <p className="text-sm text-text">{row.property}</p>
-                  <p className="text-xs text-text-muted">{row.meals} meals</p>
+                  <p className="text-sm text-text font-medium">{row.supplier}</p>
+                  <p className="text-xs text-text-muted">{row.open} open · {formatCurrency(row.value)} variance</p>
                 </div>
-                <span className="text-sm text-gold tabular-nums font-medium">{formatCurrency(row.amount)}</span>
+                <Button size="sm" variant="outline" className="border-[rgba(255,255,255,0.12)] text-text-muted hover:bg-surface-3">
+                  Drill in
+                  <ArrowRight className="w-3 h-3 ml-1" />
+                </Button>
               </div>
             ))}
           </div>
-          <div className="mt-4 pt-4 border-t border-[rgba(255,255,255,0.07)] flex justify-between">
-            <span className="text-sm text-text-muted">Total</span>
-            <span className="text-sm text-gold tabular-nums font-medium">
-              {formatCurrency(staffAllowances.reduce((sum, r) => sum + r.amount, 0))}
-            </span>
+        </div>
+      </div>
+
+      {/* Exception drill-down callout */}
+      <AlertStrip
+        variant="warning"
+        title={`${heldExceptions} invoices held — £${(trappedCapital / 1_000_000).toFixed(2)}M working capital trapped`}
+        description="Argos AI has clustered these into 12 root-cause groups. The Britvic 3-way variance pattern accounts for £1.1M alone — recurring price-list mismatch on multipack SKUs. Open the exception workbench to bulk-resolve."
+        action={
+          <Button size="sm" className="bg-gold hover:bg-gold/90 text-background">
+            Open Exception Workbench
+            <ArrowRight className="w-3 h-3 ml-2" />
+          </Button>
+        }
+      />
+
+      {/* Recent invoices table */}
+      <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-5">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-serif text-lg text-text">Recent Invoices — 3-Way Match</h3>
+          <div className="flex items-center gap-2">
+            <Filter className="w-4 h-4 text-text-muted" />
+            {(['all', 'matched', 'variance', 'pending', 'held'] as const).map((s) => (
+              <button
+                key={s}
+                onClick={() => setStatusFilter(s)}
+                className={cn(
+                  "px-3 py-1 text-xs rounded-lg border transition-colors",
+                  statusFilter === s
+                    ? "bg-gold/20 text-gold border-gold/30"
+                    : "bg-surface-2 text-text-muted border-[rgba(255,255,255,0.07)] hover:bg-surface-3"
+                )}
+              >
+                {s === 'all' ? 'All' : s.charAt(0).toUpperCase() + s.slice(1)}
+              </button>
+            ))}
           </div>
         </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-[rgba(255,255,255,0.07)]">
+                <th className="text-left uppercase-label text-text-faint py-3 px-2">Invoice #</th>
+                <th className="text-left uppercase-label text-text-faint py-3 px-2">Supplier</th>
+                <th className="text-left uppercase-label text-text-faint py-3 px-2">Category</th>
+                <th className="text-right uppercase-label text-text-faint py-3 px-2">Invoice £</th>
+                <th className="text-right uppercase-label text-text-faint py-3 px-2">PO £</th>
+                <th className="text-right uppercase-label text-text-faint py-3 px-2">GRN £</th>
+                <th className="text-right uppercase-label text-text-faint py-3 px-2">Variance</th>
+                <th className="text-center uppercase-label text-text-faint py-3 px-2">Status</th>
+                <th className="text-right uppercase-label text-text-faint py-3 px-2">Age</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredInvoices.map((row) => (
+                <tr key={row.id} className="border-b border-[rgba(255,255,255,0.05)] hover:bg-surface-2 transition-colors">
+                  <td className="py-2.5 px-2 text-sm text-text font-medium tabular-nums">{row.id}</td>
+                  <td className="py-2.5 px-2 text-sm text-text">{row.supplier}</td>
+                  <td className="py-2.5 px-2 text-xs text-text-muted">{row.category}</td>
+                  <td className="py-2.5 px-2 text-sm text-text text-right tabular-nums">{formatCurrency(row.invoice)}</td>
+                  <td className="py-2.5 px-2 text-sm text-text-muted text-right tabular-nums">{formatCurrency(row.po)}</td>
+                  <td className="py-2.5 px-2 text-sm text-text-muted text-right tabular-nums">{formatCurrency(row.grn)}</td>
+                  <td className={cn(
+                    "py-2.5 px-2 text-sm text-right tabular-nums font-medium",
+                    row.variance === 0 ? "text-text-muted" : row.variance > 0 ? "text-amber" : "text-red"
+                  )}>
+                    {row.variance === 0 ? '—' : `${row.variance > 0 ? '+' : ''}${formatCurrency(row.variance)}`}
+                  </td>
+                  <td className="py-2.5 px-2 text-center">{statusBadge(row.status)}</td>
+                  <td className="py-2.5 px-2 text-sm text-text-faint text-right tabular-nums">
+                    {row.ageDays}d
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="bg-surface-2">
+                <td colSpan={3} className="py-3 px-2 text-sm text-text font-medium">
+                  Showing {filteredInvoices.length} of {recentInvoices.length}
+                </td>
+                <td className="py-3 px-2 text-sm text-text text-right tabular-nums font-medium">
+                  {formatCurrency(filteredInvoices.reduce((s, r) => s + r.invoice, 0))}
+                </td>
+                <td className="py-3 px-2 text-sm text-text-muted text-right tabular-nums">
+                  {formatCurrency(filteredInvoices.reduce((s, r) => s + r.po, 0))}
+                </td>
+                <td className="py-3 px-2 text-sm text-text-muted text-right tabular-nums">
+                  {formatCurrency(filteredInvoices.reduce((s, r) => s + r.grn, 0))}
+                </td>
+                <td className="py-3 px-2 text-sm text-amber text-right tabular-nums font-medium">
+                  {formatCurrency(filteredInvoices.reduce((s, r) => s + Math.abs(r.variance), 0))}
+                </td>
+                <td colSpan={2}></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <p className="text-xs text-text-faint mt-4">
+          3-way match: Invoice (supplier) ↔ Purchase Order (Sainsbury’s buying) ↔ GRN (DC / store goods receipt). Argos AI auto-clears matches inside £100/0.5% tolerance and routes the rest to the exception workbench for Priya’s team in Whitechapel.
+        </p>
       </div>
     </div>
   )

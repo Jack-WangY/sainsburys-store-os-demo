@@ -33,8 +33,8 @@ const personaColors = {
 
 const personaLabels = {
   cfo: 'CFO',
-  ops: 'Operations',
-  gm: 'General Manager',
+  ops: 'Retail Operations',
+  gm: 'Store Manager',
   all: 'All Users',
 }
 
@@ -75,7 +75,7 @@ export function DemoGuideOverlay() {
             <div>
               <h2 className="font-serif text-2xl text-text">Choose Your Demo Journey</h2>
               <p className="text-sm text-text-muted mt-1">
-                Select a scenario to see House OS from different perspectives.
+                Select a scenario to see Store OS from different perspectives.
               </p>
             </div>
             <Button

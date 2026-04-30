@@ -12,7 +12,7 @@ interface DemoStep {
   title: string
   description: string
   path: string
-  role: "site-manager" | "remote-auditor" | "executive"
+  role: "store-manager" | "finance-ops" | "cfo"
   highlight?: string
   narrative: string
 }
@@ -20,109 +20,90 @@ interface DemoStep {
 const demoSteps: DemoStep[] = [
   {
     id: 1,
-    title: "Welcome to House OS",
-    description: "The AI-powered operating system transforming Soho House operations",
-    path: "/",
-    role: "site-manager",
-    narrative: "Imagine a world where every House runs like clockwork, powered by intelligent automation and real-time insights.",
+    title: "Start here — the Today story",
+    description: "Where Sainsbury's finance is today, and why Store OS matters",
+    path: "/story/today",
+    role: "cfo",
+    narrative: "Month-end stretches across weeks. Reconciliations are manual. Audit signal lags the P&L. This is the gap Store OS closes.",
   },
   {
     id: 2,
-    title: "Role Selection",
-    description: "Experience the platform from three distinct perspectives",
-    path: "/login",
-    role: "site-manager",
-    narrative: "House OS adapts to each user, providing tailored experiences for Site Managers, Remote Auditors, and Executives.",
+    title: "The Platform — what changes",
+    description: "Argos AI on top of SAP S/4 HANA, store data, and supply chain",
+    path: "/story/platform",
+    role: "cfo",
+    narrative: "One operating system across 600 stores — automating audit, reconciliation, close, and supplier ops with Argos AI on every flow.",
   },
   {
     id: 3,
-    title: "Site Manager Dashboard",
-    description: "Real-time operations at your fingertips",
-    path: "/gm",
-    role: "site-manager",
-    highlight: "kpi-cards",
-    narrative: "As a Site Manager at Soho House London, your morning begins with instant visibility into overnight performance and today's priorities.",
+    title: "The Beyond — outcomes",
+    description: "Period-end in 1 day, 99%+ auto-cleared, same-day shrinkage signal",
+    path: "/story/beyond",
+    role: "cfo",
+    narrative: "This is what finance looks like when the operating system does the heavy lifting — faster close, cleaner books, sharper loss intelligence.",
   },
   {
     id: 4,
-    title: "AI Chat Assistant",
-    description: "Natural language data capture and intelligent queries",
-    path: "/gm",
-    role: "site-manager",
-    highlight: "chat",
-    narrative: "Simply tell House AI about issues, and it automatically logs incidents, notifies relevant teams, and suggests resolutions.",
+    title: "CFO Portfolio P&L",
+    description: "600 stores live in one consolidated P&L",
+    path: "/portfolio",
+    role: "cfo",
+    highlight: "kpi-cards",
+    narrative: "Sales, margin, labour, and shrink across the entire estate — drillable, real-time, no Monday-morning spreadsheet stitching.",
   },
   {
     id: 5,
-    title: "Daily Operations Feed",
-    description: "Live pulse of everything happening in your House",
-    path: "/ops",
-    role: "site-manager",
-    highlight: "feed",
-    narrative: "Every operational metric, staff update, and member interaction streams in real-time, with AI highlighting what needs attention.",
+    title: "Daily Store Audit",
+    description: "Automated 10-step audit across every store, every morning",
+    path: "/audit",
+    role: "finance-ops",
+    highlight: "audit-steps",
+    narrative: "Cash, fresh, compliance, and stock checks evidenced by 7am. Finance gets a clean audit signal before the doors open.",
   },
   {
     id: 6,
-    title: "Live Data Integration",
-    description: "IoT sensors and POS data flowing continuously",
-    path: "/data-feed",
-    role: "site-manager",
-    highlight: "data-stream",
-    narrative: "No more manual entry. House OS connects directly to your systems, creating a complete operational picture automatically.",
+    title: "Cash Reconciliation",
+    description: "Variances classified by category with 99%+ auto-cleared",
+    path: "/reconciliation",
+    role: "finance-ops",
+    highlight: "variances",
+    narrative: "Argos AI matches till shorts, deposit-timing, and refund anomalies — only true exceptions hit a finance analyst's queue.",
   },
   {
     id: 7,
-    title: "Remote Night Audit",
-    description: "Automated reconciliation from anywhere",
-    path: "/audit",
-    role: "remote-auditor",
-    highlight: "audit-steps",
-    narrative: "At 11 PM, your Remote Audit team takes over. House AI has already completed 90% of the reconciliation checks.",
+    title: "Continuous Close",
+    description: "Period-end compressed from 8 working days to 1",
+    path: "/finance-ops",
+    role: "cfo",
+    highlight: "close-tracker",
+    narrative: "Journals post continuously, accruals are AI-suggested, and the trial balance is always within a day of go-live.",
   },
   {
     id: 8,
-    title: "Automated Reconciliation",
-    description: "AI-powered variance detection and resolution",
-    path: "/reconciliation",
-    role: "remote-auditor",
-    highlight: "variances",
-    narrative: "Variances are automatically flagged, categorized, and when possible, resolved without human intervention.",
+    title: "Invoice → PO → GRN",
+    description: "3-way auto-match on every supplier invoice",
+    path: "/ops",
+    role: "finance-ops",
+    highlight: "match-engine",
+    narrative: "Argos AI clears matched lines, routes mismatches with suggested resolutions, and removes the AP backlog entirely.",
   },
   {
     id: 9,
-    title: "Offline Mode",
-    description: "Seamless operation even without connectivity",
-    path: "/offline",
-    role: "remote-auditor",
-    highlight: "offline-queue",
-    narrative: "House OS never stops. During connectivity issues, work continues locally and syncs automatically when back online.",
+    title: "Shrinkage & Wastage",
+    description: "Live loss intelligence at SKU and aisle level",
+    path: "/floor",
+    role: "store-manager",
+    highlight: "loss-feed",
+    narrative: "Self-checkout shrink, fresh wastage, and sweethearting flagged the same day — not in a quarterly post-mortem.",
   },
   {
     id: 10,
-    title: "Executive Portfolio View",
-    description: "42 properties, one intelligent dashboard",
-    path: "/executive",
-    role: "executive",
-    highlight: "portfolio-grid",
-    narrative: "Leadership sees the entire global portfolio in one view, with AI surfacing the insights that matter most.",
-  },
-  {
-    id: 11,
-    title: "AI-Generated Insights",
-    description: "Predictive analytics and opportunity detection",
-    path: "/executive",
-    role: "executive",
-    highlight: "insights-panel",
-    narrative: "House AI continuously analyzes patterns, predicting risks before they materialize and identifying growth opportunities.",
-  },
-  {
-    id: 12,
-    title: "Member Intelligence",
-    description: "Deep understanding of member behavior and preferences",
-    path: "/members",
-    role: "executive",
-    highlight: "member-analytics",
-    narrative: "Every interaction builds a richer member profile, enabling personalized experiences that drive loyalty and spend.",
+    title: "DC ↔ Store Flow",
+    description: "Supply-chain pulse from depot dispatch to shelf availability",
+    path: "/data-feed",
+    role: "finance-ops",
+    highlight: "data-stream",
+    narrative: "Depot picks, trunking, store receipts, and on-shelf availability streaming as one connected flow. Argos AI catches breaks before they hit sales.",
   },
 ]
 
@@ -140,9 +121,9 @@ export default function DemoGuide() {
   const progress = (currentStep / demoSteps.length) * 100
 
   const roleMap: Record<string, 'site-manager' | 'gm' | 'auditor' | 'exco'> = {
-    'site-manager': 'site-manager',
-    'remote-auditor': 'auditor',
-    'executive': 'exco',
+    'store-manager': 'site-manager',
+    'finance-ops': 'auditor',
+    'cfo': 'exco',
   }
 
   const goToStep = (stepId: number) => {
@@ -240,18 +221,18 @@ export default function DemoGuide() {
             {/* Role Badge */}
             <div
               className={`rounded-full px-4 py-2 text-sm font-medium ${
-                currentDemoStep.role === "site-manager"
+                currentDemoStep.role === "store-manager"
                   ? "bg-blue-500/20 text-blue-300"
-                  : currentDemoStep.role === "remote-auditor"
+                  : currentDemoStep.role === "finance-ops"
                     ? "bg-purple-500/20 text-purple-300"
                     : "bg-accent/20 text-accent"
               }`}
             >
-              {currentDemoStep.role === "site-manager"
-                ? "Site Manager"
-                : currentDemoStep.role === "remote-auditor"
-                  ? "Remote Auditor"
-                  : "Executive"}
+              {currentDemoStep.role === "store-manager"
+                ? "Store Manager"
+                : currentDemoStep.role === "finance-ops"
+                  ? "Finance Ops"
+                  : "CFO"}
             </div>
 
             {/* Navigation */}

@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { 
-  Moon, 
-  Activity, 
-  LayoutDashboard, 
-  ChevronDown, 
-  Play, 
+import {
+  Moon,
+  Activity,
+  LayoutDashboard,
+  ChevronDown,
+  Play,
   Sparkles,
   ArrowRight,
   Check,
@@ -19,67 +19,67 @@ import {
   Brain,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { 
-  HeroVisual, 
-  AnimatedLogoMark, 
-  TextReveal, 
-  AnimatedStat, 
-  ScrollIndicator 
+import {
+  HeroVisual,
+  AnimatedLogoMark,
+  TextReveal,
+  AnimatedStat,
+  ScrollIndicator
 } from "@/components/house-os/hero-visual"
 
 const features = [
   {
     icon: Moon,
-    title: "Finance — Remote Revenue Audit",
-    headline: "Close the books without leaving home",
-    body: "10-step automated audit closes all 9 UK properties remotely. Oracle Fusion posts automatically. Auditor reviews exceptions only.",
+    title: "Finance — Continuous Close",
+    headline: "Close the books while the kettle's on",
+    body: "600-store automated audit runs continuously. SAP S/4 HANA posts journals automatically. Finance reviews exceptions only — period close drops from 11 days to 1.",
     cta: "See Audit Workflow",
     href: "/login?role=auditor",
     gradient: "from-blue/20 to-blue/5",
     visual: [
-      { step: 1, label: "PMS Data Pull", done: true },
-      { step: 2, label: "POS Sync", done: true },
-      { step: 3, label: "Oracle Post", done: false },
+      { step: 1, label: "POS / Nectar Pull", done: true },
+      { step: 2, label: "Cash Office Sync", done: true },
+      { step: 3, label: "SAP S/4 Post", done: false },
     ],
   },
   {
     icon: Activity,
-    title: "Operations — Live Data & Reporting",
-    headline: "Every transaction, captured in real time",
-    body: "Staff log comps, voids, and events via chat. Cinema, gym, and F&B sync automatically. Day-close report ready at 06:30.",
-    cta: "See Daily Ops",
-    href: "/login?role=gm",
+    title: "Supply Chain — Invoice→PO→GRN",
+    headline: "3-way match in seconds, not weeks",
+    body: "Supplier invoices auto-matched against purchase orders and goods receipts in real time. Working capital recovered, exceptions surfaced live, payment runs cleared with confidence.",
+    cta: "See Match Engine",
+    href: "/login?role=finance-ops",
     gradient: "from-green/20 to-green/5",
     visual: [
-      { time: "16:48", text: "Table 14 — dinner for 4", amount: "£212" },
-      { time: "16:52", text: "Bar tab — Membership", amount: "£84" },
-      { time: "16:54", text: "Gym session — PT", amount: "£45" },
+      { time: "06:32", text: "Britvic Inv #BRT-99412", amount: "£18,420" },
+      { time: "06:34", text: "Bakkavor Inv #BKV-22781", amount: "£42,108" },
+      { time: "06:37", text: "Müller Inv #MLR-55619", amount: "£9,640" },
     ],
   },
   {
     icon: LayoutDashboard,
-    title: "Executive — Portfolio Intelligence",
-    headline: "42 properties. One view.",
-    body: "Revenue, occupancy, exceptions, and audit status across the entire global portfolio. Real-time. Always current.",
+    title: "CFO — Portfolio P&L",
+    headline: "600 stores. One ledger.",
+    body: "Live P&L by store and region, period close status, working capital impact, and shrinkage exposure — all real-time, all in one view.",
     cta: "See Portfolio",
-    href: "/login?role=exec",
+    href: "/login?role=cfo",
     gradient: "from-gold/20 to-gold/5",
     visual: [
-      { name: "London", status: "green", value: "94%" },
-      { name: "NYC", status: "amber", value: "87%" },
-      { name: "Miami", status: "green", value: "91%" },
+      { name: "Potters Bar", status: "green", value: "104%" },
+      { name: "Whitechapel", status: "amber", value: "87%" },
+      { name: "Nine Elms", status: "green", value: "112%" },
     ],
   },
 ]
 
 const capabilities = [
   { icon: Brain, label: "AI-Powered Insights", desc: "Proactive intelligence that works 24/7" },
-  { icon: Globe, label: "Global Portfolio View", desc: "42 properties unified in one platform" },
+  { icon: Globe, label: "Portfolio-Wide View", desc: "600+ stores unified in one platform" },
   { icon: Shield, label: "Enterprise Security", desc: "SOC 2 compliant, bank-level encryption" },
-  { icon: Zap, label: "Real-Time Operations", desc: "Live data from every system" },
+  { icon: Zap, label: "Real-Time Operations", desc: "Live data from every store and system" },
 ]
 
-const integrations = ["Oracle Fusion", "Opera Cloud PMS", "Micros POS", "Agilysys", "Salesforce"]
+const integrations = ["SAP S/4 HANA", "Blue Yonder", "Manhattan Active WMS", "Nectar360", "Salesforce"]
 
 export default function HeroLanding() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -118,12 +118,12 @@ export default function HeroLanding() {
         <HeroVisual />
 
         {/* Content */}
-        <motion.div 
+        <motion.div
           className="relative z-10 max-w-5xl mx-auto text-center"
           style={{ opacity: heroOpacity }}
         >
           {/* Logo */}
-          <motion.div 
+          <motion.div
             className="flex items-center justify-center gap-4 mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -131,8 +131,8 @@ export default function HeroLanding() {
           >
             <AnimatedLogoMark />
             <div className="flex flex-col items-start">
-              <span className="uppercase-label tracking-[0.3em] text-text-muted">House OS</span>
-              <span className="text-[10px] text-text-faint">by Soho House</span>
+              <span className="uppercase-label tracking-[0.3em] text-text-muted">Store OS</span>
+              <span className="text-[10px] text-text-faint">by Sainsbury&apos;s</span>
             </div>
           </motion.div>
 
@@ -140,31 +140,49 @@ export default function HeroLanding() {
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light text-text leading-[1.05] mb-8">
             <TextReveal delay={0.4}>One platform.</TextReveal>
             <br />
-            <TextReveal delay={0.6}>Every house.</TextReveal>
+            <TextReveal delay={0.6}>Every store.</TextReveal>
             <br />
-            <motion.span 
+            <motion.span
               className="text-gold inline-block"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              Every night.
+              Every close.
             </motion.span>
           </h1>
 
           {/* Subtext */}
-          <motion.p 
-            className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto mb-12 text-balance leading-relaxed"
+          <motion.p
+            className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto mb-6 text-balance leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
           >
-            The unified operating system for finance, operations, and executive intelligence — 
-            powered by AI that works while you sleep.
+            The unified operating system for finance and supply chain —
+            powered by AI that closes the books, reconciles invoices, and surfaces shrinkage in real time.
           </motion.p>
 
+          {/* Companion link */}
+          <motion.div
+            className="mb-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.1 }}
+          >
+            <a
+              href="https://v0-sainsbury-s-market-analysis.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-text-faint hover:text-gold transition-colors inline-flex items-center"
+            >
+              Live store-intelligence companion
+              <ArrowRight className="w-3 h-3 ml-1" />
+            </a>
+          </motion.div>
+
           {/* CTAs */}
-          <motion.div 
+          <motion.div
             className="flex items-center justify-center gap-4 flex-wrap"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -176,8 +194,8 @@ export default function HeroLanding() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="border-border-mid hover:bg-surface-2 text-text px-8 py-6 text-base rounded-xl hover:border-gold/30 transition-all"
               onClick={() => setVideoPlaying(true)}
             >
@@ -187,7 +205,7 @@ export default function HeroLanding() {
           </motion.div>
 
           {/* Live indicator */}
-          <motion.div 
+          <motion.div
             className="mt-12 flex items-center justify-center gap-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -198,13 +216,13 @@ export default function HeroLanding() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green" />
             </span>
             <span className="text-xs text-text-faint">
-              42 Properties Connected · 245K Members · Live
+              600+ Stores Connected · Argos AI on watch · Live
             </span>
           </motion.div>
         </motion.div>
 
         {/* Scroll indicator */}
-        <motion.div 
+        <motion.div
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
           style={{ opacity: heroOpacity }}
         >
@@ -222,10 +240,10 @@ export default function HeroLanding() {
         )}
       >
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-8">
-          <AnimatedStat value={2.4} label="hours saved nightly per property" delay={0} suffix="h" />
-          <AnimatedStat value={99.2} label="auto-reconciled transactions" delay={0.2} suffix="%" />
-          <AnimatedStat value={42} label="properties unified" delay={0.4} />
-          <AnimatedStat value={24} label="Oracle always working" delay={0.6} suffix="/7" />
+          <AnimatedStat value={1} label="day period close (from 11)" delay={0} suffix="d" />
+          <AnimatedStat value={97.4} label="auto-matched invoices" delay={0.2} suffix="%" />
+          <AnimatedStat value={600} label="stores unified" delay={0.4} suffix="+" />
+          <AnimatedStat value={24} label="Argos AI on watch" delay={0.6} suffix="/7" />
         </div>
       </section>
 
@@ -251,7 +269,7 @@ export default function HeroLanding() {
                 Intelligence that never sleeps
               </h2>
               <p className="text-text-muted max-w-xl mx-auto">
-                House OS combines real-time operations with proactive AI to transform how you run your properties.
+                Store OS combines real-time finance and supply chain operations with proactive AI to transform how Sainsbury&apos;s closes, reconciles, and reports.
               </p>
             </motion.div>
           </div>
@@ -286,7 +304,7 @@ export default function HeroLanding() {
           <div className="text-center mb-16">
             <span className="uppercase-label text-gold mb-4 block">Three Perspectives</span>
             <h2 className="font-serif text-4xl md:text-5xl text-text">
-              Built for every role
+              Built for the office of the CFO
             </h2>
           </div>
 
@@ -388,7 +406,7 @@ export default function HeroLanding() {
         </div>
       </section>
 
-      {/* AI Oracle Section */}
+      {/* Argos AI Section */}
       <section
         data-section
         data-index="6"
@@ -399,7 +417,7 @@ export default function HeroLanding() {
       >
         {/* Background glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[100px] pointer-events-none" />
-        
+
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -409,16 +427,16 @@ export default function HeroLanding() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/20 mb-8">
               <Sparkles className="w-4 h-4 text-gold" />
-              <span className="text-sm text-gold">Introducing Oracle AI</span>
+              <span className="text-sm text-gold">Introducing Argos AI</span>
             </div>
-            
+
             <h2 className="font-serif text-4xl md:text-5xl text-text mb-6">
-              Your 24/7 executive assistant
+              Your 24/7 finance co-pilot
             </h2>
-            
+
             <p className="text-lg text-text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
-              Oracle works while you sleep. It monitors your portfolio, surfaces insights, 
-              progresses your tasks, and tells you exactly what needs your attention — 
+              Argos works while the stores trade. It monitors invoice variance, surfaces shrinkage exposure,
+              progresses period-close tasks, and tells you exactly what needs CFO attention —
               with a clear path to closure.
             </p>
 
@@ -436,13 +454,13 @@ export default function HeroLanding() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-text">Oracle Update</span>
+                    <span className="font-medium text-text">Argos Update</span>
                     <span className="text-xs text-text-faint">Just now</span>
                   </div>
                   <p className="text-sm text-text-muted leading-relaxed">
-                    <strong className="text-text">Hong Kong Recovery Plan:</strong> I&apos;ve completed the competitive 
-                    analysis and drafted 3 intervention options. Your next action: review the proposals. 
-                    Target closure: Friday 5pm.
+                    <strong className="text-text">Period 04 Close:</strong> 597 of 600 stores reconciled.
+                    3 exceptions (Bakkavor invoice variance £42k, Whitechapel shrinkage spike, Nine Elms cash short).
+                    Drafts ready for review. Target close: tomorrow 09:00.
                   </p>
                   <button className="mt-3 text-sm text-gold hover:text-gold/80 transition-colors inline-flex items-center">
                     Review now <ArrowRight className="w-3 h-3 ml-1" />
@@ -473,12 +491,12 @@ export default function HeroLanding() {
             ))}
           </div>
           <p className="text-xs text-text-faint mt-8 max-w-lg mx-auto">
-            API integration layer bridges legacy systems. Long-term: House OS becomes the system of record.
+            API integration layer bridges legacy POS, WMS, and ERP. Long-term: Store OS becomes the system of record.
           </p>
         </div>
       </section>
 
-      {/* Dave's Story Section */}
+      {/* Priya's Story Section */}
       <section
         data-section
         data-index="8"
@@ -499,12 +517,13 @@ export default function HeroLanding() {
               >
                 <span className="uppercase-label text-gold mb-4 block">The Journey</span>
                 <h2 className="font-serif text-4xl md:text-5xl text-text mb-6">
-                  Meet Dave
+                  Meet Priya
                 </h2>
                 <p className="text-text-muted mb-6 leading-relaxed">
-                  Dave is the Night Supervisor. He closes the books every night across all Soho House properties. 
-                  Follow his journey from manual reconciliation to AI-powered oversight — a three-state evolution 
-                  that transforms not just how Dave works, but how the entire business operates.
+                  Priya is the Daily Audit Lead at the Whitechapel store. She reconciles takings,
+                  shrinkage, and supplier deliveries every day across her store and her cluster.
+                  Follow her journey from manual reconciliation to AI-powered oversight — a three-state evolution
+                  that transforms not just how Priya works, but how the entire business closes.
                 </p>
                 <div className="flex items-center gap-4 mb-8">
                   <div className="flex items-center gap-2">
@@ -524,7 +543,7 @@ export default function HeroLanding() {
                 </div>
                 <Link href="/story">
                   <Button className="bg-gold hover:bg-gold/90 text-background px-8 py-6 text-base">
-                    Read Dave&apos;s Story
+                    Read Priya&apos;s Story
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
@@ -565,7 +584,7 @@ export default function HeroLanding() {
                   </div>
                 </div>
                 <div className="bg-surface-2 border border-border rounded-xl p-4 text-center">
-                  <p className="text-sm text-text font-medium mb-1">Revenue Audit Process</p>
+                  <p className="text-sm text-text font-medium mb-1">Daily Audit & Close Process</p>
                   <p className="text-xs text-text-muted">From manual close to intelligent oversight: a three-state journey</p>
                 </div>
               </div>
@@ -591,7 +610,7 @@ export default function HeroLanding() {
         >
           <h2 className="font-serif text-4xl md:text-5xl text-text mb-4">Ready to see it live?</h2>
           <p className="text-text-muted mb-10 max-w-md mx-auto">
-            Experience how House OS transforms property operations — from revenue audit to executive insights.
+            Experience how Store OS transforms Sainsbury&apos;s finance and supply chain — from continuous close to live portfolio P&amp;L.
           </p>
           <Link href="/login">
             <Button className="bg-gold hover:bg-gold/90 text-background px-10 py-6 text-base font-medium rounded-xl shadow-lg shadow-gold/20 hover:shadow-gold/30 transition-all hover:scale-105">
@@ -605,8 +624,15 @@ export default function HeroLanding() {
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-border">
         <div className="max-w-6xl mx-auto flex items-center justify-between text-xs text-text-faint">
-          <span>House OS · Soho House · 2024</span>
-          <span>Executive Briefing Demo</span>
+          <span>&copy; Sainsbury&apos;s Store OS &middot; CFO Briefing Demo &middot; {new Date().getFullYear()}</span>
+          <a
+            href="https://v0-sainsbury-s-market-analysis.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gold transition-colors"
+          >
+            Live store-intelligence companion &rarr;
+          </a>
         </div>
       </footer>
 
@@ -629,7 +655,7 @@ export default function HeroLanding() {
             >
               <div className="text-center">
                 <Play className="w-16 h-16 text-gold mx-auto mb-4" />
-                <p className="text-text-muted">Demo video placeholder</p>
+                <p className="text-text-muted">Demo video placeholder &mdash; Sainsbury&apos;s Store OS in action</p>
                 <p className="text-xs text-text-faint mt-2">Click outside to close</p>
               </div>
             </motion.div>

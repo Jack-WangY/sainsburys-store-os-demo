@@ -15,6 +15,7 @@ import {
   LayoutDashboard,
   X,
   Menu,
+  ShoppingBasket,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -30,7 +31,7 @@ const chapters = [
     subtitle: '',
     href: '/story/today',
     icon: ClipboardList,
-    description: 'Manual processes, Excel spreadsheets, and hours of reconciliation',
+    description: 'Manual close, broken 3-way match, and shrinkage spotted too late',
   },
   {
     id: 'beyond',
@@ -39,12 +40,12 @@ const chapters = [
     subtitle: 'AI-Driven Operating Model',
     href: '/story/beyond',
     icon: Sparkles,
-    description: 'Real-time oversight with House OS',
+    description: 'Real-time finance and supply chain control with Store OS',
   },
   {
     id: 'platform',
     label: 'Experience It',
-    title: 'House OS Platform',
+    title: 'Store OS Platform',
     href: '/story/platform',
     icon: LayoutDashboard,
     description: 'See the vision in action',
@@ -54,7 +55,7 @@ const chapters = [
 export default function StoryLayout({ children }: StoryLayoutProps) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  
+
   const currentIndex = chapters.findIndex(c => c.href === pathname)
   const currentChapter = chapters[currentIndex] || chapters[0]
   const prevChapter = currentIndex > 0 ? chapters[currentIndex - 1] : null
@@ -95,11 +96,11 @@ export default function StoryLayout({ children }: StoryLayoutProps) {
         <div className="flex items-center justify-between p-5 border-b border-black/10">
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold to-gold-dim flex items-center justify-center">
-              <span className="text-white font-bold text-sm">H</span>
+              <ShoppingBasket className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className="text-sm font-semibold text-black">House OS</h1>
-              <p className="text-[10px] text-black/60">Revenue Audit Story</p>
+              <h1 className="text-sm font-semibold text-black">Store OS</h1>
+              <p className="text-[10px] text-black/60">Sainsbury&apos;s Finance Story</p>
             </div>
           </Link>
           <button
@@ -120,7 +121,7 @@ export default function StoryLayout({ children }: StoryLayoutProps) {
               const isActive = pathname === chapter.href
               const Icon = chapter.icon
               const isPast = currentIndex > idx
-              
+
               return (
                 <Link
                   key={chapter.id}
@@ -154,7 +155,7 @@ export default function StoryLayout({ children }: StoryLayoutProps) {
                       />
                     )}
                   </div>
-                  
+
                   <div className="flex-1 min-w-0 pt-0.5">
                     <span className="text-[10px] uppercase tracking-wide text-black/50 block">
                       {chapter.label}
@@ -213,7 +214,7 @@ export default function StoryLayout({ children }: StoryLayoutProps) {
             ) : (
               <div />
             )}
-            
+
             <div className="flex items-center gap-2">
               {chapters.map((chapter, idx) => (
                 <Link

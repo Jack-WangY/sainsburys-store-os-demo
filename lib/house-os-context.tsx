@@ -17,9 +17,10 @@ export interface Transaction {
   property: string
   description: string
   amount: number
-  type: 'food' | 'bar' | 'gym' | 'cinema' | 'spa' | 'rooms'
+  type: 'pos' | 'argos' | 'nectar' | 'online' | 'fuel' | 'inventory'
 }
 
+// "Property" stays as the type name to keep diffs minimal but represents a Sainsbury's store
 export interface Property {
   id: string
   name: string
@@ -27,15 +28,16 @@ export interface Property {
   address: string
   lat: number
   lng: number
-  occupancy: number
-  revenueToday: number
-  fbNet: number
-  membersIn: number
-  comps: number
+  occupancy: number       // re-purposed: % of forecast revenue achieved today
+  revenueToday: number    // £ today
+  fbNet: number           // re-purposed: fresh-food net £
+  membersIn: number       // re-purposed: Nectar customers in today
+  comps: number           // re-purposed: shrinkage £ today
   auditStatus: 'closed' | 'review' | 'pending'
   oracleStatus: 'synced' | 'posting' | 'pending' | 'held'
   hasAlert: boolean
   position: { x: number; y: number }
+  format?: 'superstore' | 'local' | 'central' | 'argos'
 }
 
 export interface Exception {
@@ -79,22 +81,22 @@ type Action =
   | { type: 'RESOLVE_EXCEPTION'; payload: string }
   | { type: 'SET_DEMO_MODE'; payload: boolean }
 
-// Real UK Soho House locations with accurate coordinates and postcodes
+// 9 representative Sainsbury's stores across UK formats — superstores, locals, centrals, and an Argos.
 const initialProperties: Property[] = [
-  { id: 'farmhouse', name: 'Soho Farmhouse', postcode: 'OX7 4JS', address: 'Great Tew, Chipping Norton', lat: 51.9403, lng: -1.4215, occupancy: 96, revenueToday: 68900, fbNet: 28100, membersIn: 124, comps: 1240, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 36, y: 32 } },
-  { id: '180-house', name: '180 House', postcode: 'WC2R 1EA', address: '180 The Strand', lat: 51.5114, lng: -0.1165, occupancy: 88, revenueToday: 42300, fbNet: 18600, membersIn: 298, comps: 890, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 44, y: 58 } },
-  { id: 'shoreditch', name: 'Shoreditch House', postcode: 'E1 6AW', address: 'Ebor Street, Shoreditch', lat: 51.5246, lng: -0.0763, occupancy: 91, revenueToday: 38700, fbNet: 15200, membersIn: 187, comps: 720, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 48, y: 62 } },
-  { id: 'white-city', name: 'White City House', postcode: 'W12 7FA', address: '101 Wood Lane, Television Centre', lat: 51.5092, lng: -0.2246, occupancy: 78, revenueToday: 31200, fbNet: 12400, membersIn: 156, comps: 340, auditStatus: 'review', oracleStatus: 'held', hasAlert: true, position: { x: 41, y: 64 } },
-  { id: 'dean-street', name: '76 Dean Street', postcode: 'W1D 3SQ', address: '76 Dean Street, Soho', lat: 51.5136, lng: -0.1314, occupancy: 84, revenueToday: 28900, fbNet: 14200, membersIn: 203, comps: 560, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 45, y: 60 } },
-  { id: 'greek-street', name: 'Soho House (Greek St)', postcode: 'W1D 4EB', address: '40 Greek Street, Soho', lat: 51.5140, lng: -0.1306, occupancy: 82, revenueToday: 24600, fbNet: 9800, membersIn: 142, comps: 420, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 43, y: 55 } },
-  { id: 'high-road', name: 'High Road House', postcode: 'W4 1PR', address: '162-170 Chiswick High Road', lat: 51.4927, lng: -0.2633, occupancy: 79, revenueToday: 22100, fbNet: 11300, membersIn: 168, comps: 380, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 50, y: 65 } },
-  { id: 'electric', name: 'Electric House', postcode: 'W11 2ED', address: '191 Portobello Road, Notting Hill', lat: 51.5154, lng: -0.2050, occupancy: 86, revenueToday: 18400, fbNet: 8900, membersIn: 89, comps: 290, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 46, y: 59 } },
-  { id: 'brighton', name: 'Soho House Brighton', postcode: 'BN1 1UB', address: '29 Ship Street, Brighton', lat: 50.8213, lng: -0.1414, occupancy: 81, revenueToday: 12300, fbNet: 6200, membersIn: 76, comps: 180, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 42, y: 67 } },
+  { id: 'potters-bar', name: "Sainsbury's Potters Bar", postcode: 'EN6 1AU', address: '7-8 Darkes Lane, Potters Bar', lat: 51.6948, lng: -0.1856, occupancy: 96, revenueToday: 142800, fbNet: 58200, membersIn: 4124, comps: 1240, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 46, y: 36 }, format: 'superstore' },
+  { id: 'nine-elms', name: "Sainsbury's Nine Elms", postcode: 'SW8 5BL', address: '62 Wandsworth Rd, Nine Elms', lat: 51.4842, lng: -0.1245, occupancy: 88, revenueToday: 187300, fbNet: 76600, membersIn: 6298, comps: 2890, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 44, y: 58 }, format: 'superstore' },
+  { id: 'kings-cross', name: "Sainsbury's Local King's Cross", postcode: 'N1C 4AB', address: '7-9 Pancras Road, King\'s Cross', lat: 51.5318, lng: -0.1233, occupancy: 91, revenueToday: 38700, fbNet: 15200, membersIn: 1870, comps: 720, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 48, y: 62 }, format: 'local' },
+  { id: 'whitechapel', name: "Sainsbury's Whitechapel", postcode: 'E1 7QX', address: '1 Cambridge Heath Road', lat: 51.5180, lng: -0.0633, occupancy: 78, revenueToday: 91200, fbNet: 32400, membersIn: 3156, comps: 3340, auditStatus: 'review', oracleStatus: 'held', hasAlert: true, position: { x: 51, y: 64 }, format: 'superstore' },
+  { id: 'cromwell-rd', name: "Sainsbury's Cromwell Road", postcode: 'SW7 4DR', address: '152 Cromwell Road, Kensington', lat: 51.4934, lng: -0.1875, occupancy: 84, revenueToday: 124900, fbNet: 54200, membersIn: 4203, comps: 1560, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 41, y: 60 }, format: 'superstore' },
+  { id: 'central-london', name: "Sainsbury's Local Holborn", postcode: 'WC1V 7HX', address: '124-126 High Holborn', lat: 51.5180, lng: -0.1206, occupancy: 82, revenueToday: 24600, fbNet: 9800, membersIn: 1142, comps: 420, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 47, y: 55 }, format: 'central' },
+  { id: 'fulham', name: "Sainsbury's Fulham Wharf", postcode: 'SW6 2GA', address: 'Townmead Road, Fulham', lat: 51.4727, lng: -0.1933, occupancy: 79, revenueToday: 102100, fbNet: 41300, membersIn: 3168, comps: 1180, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 39, y: 65 }, format: 'superstore' },
+  { id: 'argos-stratford', name: 'Argos Stratford (in-store)', postcode: 'E15 1XE', address: 'Westfield Stratford City', lat: 51.5418, lng: -0.0050, occupancy: 86, revenueToday: 48400, fbNet: 0, membersIn: 1289, comps: 290, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 55, y: 59 }, format: 'argos' },
+  { id: 'brighton', name: "Sainsbury's Brighton Marina", postcode: 'BN2 5UT', address: 'Marina Way, Brighton', lat: 50.8129, lng: -0.1014, occupancy: 81, revenueToday: 78300, fbNet: 31200, membersIn: 2376, comps: 980, auditStatus: 'closed', oracleStatus: 'synced', hasAlert: false, position: { x: 45, y: 76 }, format: 'superstore' },
 ]
 
 const initialExceptions: Exception[] = [
-  { id: 'exc-1', property: 'White City House', title: 'POS Variance Detected', description: 'Bar revenue variance of £340 between POS and payment totals', severity: 'warning', status: 'open' },
-  { id: 'exc-2', property: '180 House', title: 'Cinema Sales Variance', description: 'Cinema ticket sales mismatch recurring for 3 days', severity: 'info', status: 'assigned' },
+  { id: 'exc-1', property: "Sainsbury's Whitechapel", title: 'Cash Office Variance', description: 'Cash declared variance of £842 between Tellermate and Z-read totals', severity: 'warning', status: 'open' },
+  { id: 'exc-2', property: "Sainsbury's Nine Elms", title: 'Supplier Invoice 3-way Match Fail', description: 'Britvic Inv #BRT-99412 — invoice £18,420 vs PO £17,980 (variance £440 over 3-day SLA)', severity: 'info', status: 'assigned' },
 ]
 
 const initialState: HouseOSState = {
@@ -149,15 +151,15 @@ const HouseOSContext = createContext<{
 } | null>(null)
 
 const roleUsers: Record<string, User> = {
-  exco: { name: 'Sarah Mitchell', role: 'exco', initials: 'SM' },
-  cfo: { name: 'James Chen', role: 'cfo', initials: 'JC' },
-  ceo: { name: 'Andrew Carnie', role: 'ceo', initials: 'AC' },
-  finance: { name: 'Dave', role: 'finance', initials: 'DV', property: 'white-city' },
+  exco: { name: 'Simon Roberts', role: 'exco', initials: 'SR' },
+  cfo: { name: 'Bláthnaid Bergin', role: 'cfo', initials: 'BB' },
+  ceo: { name: 'Simon Roberts', role: 'ceo', initials: 'SR' },
+  finance: { name: 'Priya Shah', role: 'finance', initials: 'PS', property: 'whitechapel' },
   'finance-ops': { name: 'Rachel Thompson', role: 'finance-ops', initials: 'RT' },
-  floor: { name: 'James Liu', role: 'floor', initials: 'JL', property: 'white-city' },
+  floor: { name: 'James Liu', role: 'floor', initials: 'JL', property: 'whitechapel' },
   auditor: { name: 'Mark Reynolds', role: 'auditor', initials: 'MR' },
-  gm: { name: 'Emma Park', role: 'gm', initials: 'EP', property: 'white-city' },
-  'site-manager': { name: 'Tom Williams', role: 'site-manager', initials: 'TW', property: 'shoreditch' },
+  gm: { name: 'Emma Park', role: 'gm', initials: 'EP', property: 'whitechapel' },
+  'site-manager': { name: 'Tom Williams', role: 'site-manager', initials: 'TW', property: 'kings-cross' },
 }
 
 export function HouseOSProvider({ children }: { children: ReactNode }) {
@@ -203,7 +205,7 @@ export function getRoleDefaultRoute(role: UserRole): string {
       return '/floor'
     case 'gm':
     case 'site-manager':
-      return '/gm'
+      return '/portfolio'
     default:
       return '/portfolio'
   }

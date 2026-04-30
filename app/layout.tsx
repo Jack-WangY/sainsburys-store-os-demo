@@ -18,8 +18,8 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: 'House OS | Soho House',
-  description: 'One platform. Every house. Every night. Unified property & operations management for Soho House UK.',
+  title: "Store OS | Sainsbury's",
+  description: "One platform. Every store. Every close. Unified finance & supply-chain operating system for Sainsbury's.",
   generator: 'v0.app',
   icons: {
     icon: [

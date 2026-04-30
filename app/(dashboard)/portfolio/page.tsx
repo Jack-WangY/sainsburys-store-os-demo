@@ -50,22 +50,41 @@ const UKMap = dynamic(() => import('@/components/house-os/uk-map'), {
   ),
 })
 
+// Group revenue (£m) across the trading week — Sainsbury's Group runs ~£32B/yr
 const weeklyRevenueData = [
-  { day: 'Mon', revenue: 245 },
-  { day: 'Tue', revenue: 267 },
-  { day: 'Wed', revenue: 258 },
-  { day: 'Thu', revenue: 289 },
-  { day: 'Fri', revenue: 312 },
-  { day: 'Sat', revenue: 342 },
-  { day: 'Sun', revenue: 287 },
+  { day: 'Mon', revenue: 78 },
+  { day: 'Tue', revenue: 81 },
+  { day: 'Wed', revenue: 84 },
+  { day: 'Thu', revenue: 92 },
+  { day: 'Fri', revenue: 108 },
+  { day: 'Sat', revenue: 124 },
+  { day: 'Sun', revenue: 96 },
 ]
 
+// Group revenue mix today (£ today)
 const revenueMixData = [
-  { name: 'Rooms', value: 127420, color: '#c9a84c' },
-  { name: 'F&B', value: 89500, color: '#4a9e6b' },
-  { name: 'Membership', value: 42000, color: '#5a87c4' },
-  { name: 'Cinema/Gym', value: 14380, color: '#d4855a' },
-  { name: 'Other', value: 13700, color: '#4a4640' },
+  { name: 'Fresh & Grocery', value: 48200000, color: '#c9a84c' },
+  { name: 'General Merchandise', value: 11800000, color: '#4a9e6b' },
+  { name: 'Clothing (Tu)', value: 4200000, color: '#5a87c4' },
+  { name: 'Argos', value: 14600000, color: '#d4855a' },
+  { name: 'Fuel', value: 8900000, color: '#4a4640' },
+]
+
+// Format breakdown across the 600-store estate
+const formatBreakdown = [
+  { format: 'Superstore', count: 147, revenue: '£14.2M', share: '44%' },
+  { format: 'Local (convenience)', count: 821, revenue: '£8.6M', share: '27%' },
+  { format: 'Central / Online hub', count: 32, revenue: '£3.4M', share: '11%' },
+  { format: 'Argos (in-store + standalone)', count: 712, revenue: '£5.6M', share: '18%' },
+]
+
+// Regional snapshot — period-close status by trading region
+const regionalSnapshot = [
+  { region: 'London & South East', stores: 184, revenue: 9.8, status: 'closed' as const },
+  { region: 'Midlands', stores: 121, revenue: 6.4, status: 'closed' as const },
+  { region: 'North & Scotland', stores: 142, revenue: 7.2, status: 'closed' as const },
+  { region: 'South West & Wales', stores: 88, revenue: 4.6, status: 'review' as const },
+  { region: 'East & Anglia', stores: 65, revenue: 3.8, status: 'closed' as const },
 ]
 
 export default function PortfolioPage() {
@@ -114,64 +133,86 @@ export default function PortfolioPage() {
   )
   const totalMembers = state.properties.reduce((sum, p) => sum + p.membersIn, 0)
 
+  const formatLabel = (f?: string) => {
+    switch (f) {
+      case 'superstore': return 'Superstore'
+      case 'local': return 'Local'
+      case 'central': return 'Central'
+      case 'argos': return 'Argos'
+      default: return 'Store'
+    }
+  }
+
   const alerts: { id: string; variant: 'warning' | 'info'; title: string; description: string; action: string }[] = [
     {
-      id: 'white-city',
+      id: 'whitechapel-cash',
       variant: 'warning',
-      title: 'White City House - Reconciliation Gap',
-      description: 'POS variance of £340 detected. Bar revenue held pending review.',
+      title: "Sainsbury's Whitechapel — Cash Office Variance",
+      description: 'Tellermate variance of £842 vs Z-read totals. Posting to SAP S/4 HANA held pending review.',
       action: 'Review',
     },
     {
-      id: 'cinema',
+      id: 'britvic-3way',
       variant: 'info',
-      title: '180 House - Cinema Sales Variance',
-      description: 'Cinema ticket sales mismatch recurring for 3 days. Awaiting site confirmation.',
+      title: "Nine Elms — Britvic 3-way Match Fail",
+      description: 'Invoice BRT-99412 — invoice £18,420 vs PO £17,980. Variance £440 over 3-day SLA.',
       action: 'View Details',
     },
   ]
 
   return (
     <div className="space-y-6">
+      {/* CFO Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 pb-2">
+        <div>
+          <h1 className="font-serif text-2xl text-text">Group P&L — CFO Portfolio</h1>
+          <p className="text-sm text-text-muted mt-1">
+            Bláthnaid Bergin · 600 stores · FY2026 · trading day {new Date().toLocaleDateString('en-GB')}
+          </p>
+        </div>
+        <StatusBadge variant="green" icon={<CheckCircle className="w-3 h-3" />}>
+          Period close on track
+        </StatusBadge>
+      </div>
+
       {/* KPI Strip */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
-          title="Total Revenue MTD"
+          title="Group Revenue Today"
           icon={<PoundSterling className="w-3.5 h-3.5" />}
-          value="£4.72M"
-          label="All 9 UK properties"
-          delta={{ direction: 'up', value: '11.4%', label: 'vs last month' }}
+          value="£87.7M"
+          label="600 stores · all UK formats"
+          delta={{ direction: 'up', value: '4.2%', label: 'vs LY same trading day' }}
         />
         <KPICard
-          title="Active Members"
+          title="Nectar Customers Today"
           icon={<Users className="w-3.5 h-3.5" />}
-          value="23,840"
-          label="UK total · 271k global"
-          delta={{ direction: 'up', value: '2.2%', label: 'YoY' }}
+          value="6.4M"
+          label="Active swipes today · 19.8M base"
+          delta={{ direction: 'up', value: '2.8%', label: 'YoY' }}
         />
         <KPICard
-          title="Portfolio Occupancy"
+          title="Stores Trading"
           icon={<Building2 className="w-3.5 h-3.5" />}
-          value={`${avgOccupancy}%`}
-          label="Weighted avg across sites"
-          delta={{ direction: 'up', value: '3.1pts', label: 'vs Q3' }}
+          value="600 / 600"
+          label="147 superstores · 821 locals · 712 Argos · 32 central"
+          delta={{ direction: 'up', value: 'All open' }}
         />
         <KPICard
-          title="Audit Completion"
+          title="Period Close Status"
           icon={<CheckCircle className="w-3.5 h-3.5" />}
-          value="9/9"
-          label="Last night closed at 02:41"
-          delta={{ direction: 'neutral', value: 'All reconciled' }}
+          value="592 / 600"
+          label="8 stores in review · auto-sweep at 03:00"
+          delta={{ direction: 'neutral', value: '98.7% closed' }}
         />
       </div>
 
       {/* Map and Chart Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* UK Property Network Map - Real Map */}
+        {/* UK Store Network Map */}
         <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6 relative overflow-hidden">
-          <h3 className="font-serif text-lg text-text mb-4">UK Property Network</h3>
-          
-          {/* Map container - Real Leaflet Map */}
+          <h3 className="font-serif text-lg text-text mb-4">UK Store Network</h3>
+
           <div className="relative h-[320px] rounded-xl overflow-hidden">
             <UKMap
               properties={state.properties}
@@ -180,28 +221,27 @@ export default function PortfolioPage() {
             />
           </div>
 
-          {/* Legend */}
           <div className="flex items-center justify-between mt-4">
             <div className="flex items-center gap-6 text-xs text-text-muted">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-gold shadow-[0_0_6px_rgba(201,168,76,0.4)]" />
-                <span>All clear</span>
+                <span>Trading clean</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-amber shadow-[0_0_6px_rgba(212,133,90,0.5)]" />
                 <span>Needs attention</span>
               </div>
             </div>
-            <span className="text-xs text-text-faint">9 properties · UK</span>
+            <span className="text-xs text-text-faint">9 representative stores shown · 600 in estate</span>
           </div>
         </div>
 
         {/* Revenue 7-Day Chart */}
         <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-serif text-lg text-text">Revenue 7-Day Trend</h3>
+            <h3 className="font-serif text-lg text-text">Group Revenue — 7-Day Trend</h3>
             <StatusBadge variant="green" icon={<TrendingUp className="w-3 h-3" />}>
-              +8.2% WoW
+              +3.4% WoW
             </StatusBadge>
           </div>
           <div className="h-[280px]">
@@ -218,7 +258,7 @@ export default function PortfolioPage() {
                 <YAxis
                   stroke="#8a8278"
                   fontSize={12}
-                  tickFormatter={(v) => `£${v}k`}
+                  tickFormatter={(v) => `£${v}M`}
                 />
                 <Tooltip
                   contentStyle={{
@@ -226,7 +266,7 @@ export default function PortfolioPage() {
                     border: '1px solid rgba(255,255,255,0.1)',
                     borderRadius: '8px',
                   }}
-                  formatter={(value: number) => [`£${value}k`, 'UK Total']}
+                  formatter={(value: number) => [`£${value}M`, 'Group Revenue']}
                 />
                 <Line
                   type="monotone"
@@ -243,10 +283,51 @@ export default function PortfolioPage() {
         </div>
       </div>
 
-      {/* Property Performance Table */}
+      {/* Format breakdown + Region snapshot */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
+          <h3 className="font-serif text-lg text-text mb-4">Estate by Format</h3>
+          <div className="space-y-3">
+            {formatBreakdown.map((row) => (
+              <div key={row.format} className="flex items-center justify-between p-3 rounded-lg bg-surface-2">
+                <div>
+                  <p className="text-sm text-text font-medium">{row.format}</p>
+                  <p className="text-xs text-text-muted">{row.count} stores</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm text-gold font-medium tabular-nums">{row.revenue}</p>
+                  <p className="text-xs text-text-faint">{row.share} of group</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
+          <h3 className="font-serif text-lg text-text mb-4">Period Close — by Region</h3>
+          <div className="space-y-3">
+            {regionalSnapshot.map((row) => (
+              <div key={row.region} className="flex items-center justify-between p-3 rounded-lg bg-surface-2">
+                <div>
+                  <p className="text-sm text-text font-medium">{row.region}</p>
+                  <p className="text-xs text-text-muted">{row.stores} stores</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-text tabular-nums">£{row.revenue}M</span>
+                  <StatusBadge variant={row.status === 'closed' ? 'green' : 'amber'}>
+                    {row.status === 'closed' ? 'Closed' : 'In review'}
+                  </StatusBadge>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Store Performance Table */}
       <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="font-serif text-lg text-text">Property Performance</h3>
+          <h3 className="font-serif text-lg text-text">Store Performance — Sample of Estate</h3>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" className="border-[rgba(255,255,255,0.12)] text-text-muted hover:bg-surface-3">
               <Filter className="w-4 h-4 mr-2" />
@@ -263,17 +344,17 @@ export default function PortfolioPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[rgba(255,255,255,0.07)]">
-                <th 
+                <th
                   className="text-left uppercase-label text-text-faint py-3 px-3 cursor-pointer hover:text-text-muted"
                   onClick={() => handleSort('name')}
                 >
                   <div className="flex items-center gap-1">
-                    Property
+                    Store
                     <ArrowUpDown className="w-3 h-3" />
                   </div>
                 </th>
-                <th className="text-left uppercase-label text-text-faint py-3 px-3">Status</th>
-                <th 
+                <th className="text-left uppercase-label text-text-faint py-3 px-3">Format</th>
+                <th
                   className="text-right uppercase-label text-text-faint py-3 px-3 cursor-pointer hover:text-text-muted"
                   onClick={() => handleSort('revenue')}
                 >
@@ -282,20 +363,20 @@ export default function PortfolioPage() {
                     <ArrowUpDown className="w-3 h-3" />
                   </div>
                 </th>
-                <th className="text-right uppercase-label text-text-faint py-3 px-3">F&B Net</th>
-                <th 
+                <th className="text-right uppercase-label text-text-faint py-3 px-3">Fresh £</th>
+                <th
                   className="text-right uppercase-label text-text-faint py-3 px-3 cursor-pointer hover:text-text-muted"
                   onClick={() => handleSort('occupancy')}
                 >
                   <div className="flex items-center justify-end gap-1">
-                    Occupancy
+                    Forecast %
                     <ArrowUpDown className="w-3 h-3" />
                   </div>
                 </th>
-                <th className="text-right uppercase-label text-text-faint py-3 px-3">Members In</th>
-                <th className="text-right uppercase-label text-text-faint py-3 px-3">Comps</th>
+                <th className="text-right uppercase-label text-text-faint py-3 px-3">Nectar</th>
+                <th className="text-right uppercase-label text-text-faint py-3 px-3">Shrink £</th>
                 <th className="text-center uppercase-label text-text-faint py-3 px-3">Audit</th>
-                <th className="text-center uppercase-label text-text-faint py-3 px-3">Oracle</th>
+                <th className="text-center uppercase-label text-text-faint py-3 px-3">SAP</th>
               </tr>
             </thead>
             <tbody>
@@ -317,7 +398,7 @@ export default function PortfolioPage() {
                     </div>
                   </td>
                   <td className="py-3 px-3">
-                    <StatusBadge variant="green">Open</StatusBadge>
+                    <StatusBadge variant="ghost">{formatLabel(property.format)}</StatusBadge>
                   </td>
                   <td className="py-3 px-3 text-sm text-text text-right tabular-nums font-medium">
                     {formatCurrency(property.revenueToday)}
@@ -329,7 +410,7 @@ export default function PortfolioPage() {
                     {property.occupancy}%
                   </td>
                   <td className="py-3 px-3 text-sm text-text-muted text-right tabular-nums">
-                    {property.membersIn}
+                    {property.membersIn.toLocaleString()}
                   </td>
                   <td className="py-3 px-3 text-sm text-text-muted text-right tabular-nums">
                     {formatCurrency(property.comps)}
@@ -361,7 +442,7 @@ export default function PortfolioPage() {
             </tbody>
             <tfoot>
               <tr className="bg-surface-2">
-                <td className="py-3 px-3 text-sm text-text font-medium">Total (9 properties)</td>
+                <td className="py-3 px-3 text-sm text-text font-medium">Sample (9 stores)</td>
                 <td className="py-3 px-3"></td>
                 <td className="py-3 px-3 text-sm text-gold text-right tabular-nums font-medium">
                   {formatCurrency(totalRevenue)}
@@ -373,13 +454,13 @@ export default function PortfolioPage() {
                   {avgOccupancy}%
                 </td>
                 <td className="py-3 px-3 text-sm text-text-muted text-right tabular-nums font-medium">
-                  {totalMembers}
+                  {totalMembers.toLocaleString()}
                 </td>
                 <td className="py-3 px-3 text-sm text-text-muted text-right tabular-nums font-medium">
                   {formatCurrency(state.properties.reduce((sum, p) => sum + p.comps, 0))}
                 </td>
                 <td className="py-3 px-3 text-center">
-                  <StatusBadge variant="green">9/9</StatusBadge>
+                  <StatusBadge variant="green">8/9</StatusBadge>
                 </td>
                 <td className="py-3 px-3 text-center">
                   <StatusBadge variant="blue">8/9</StatusBadge>
@@ -394,7 +475,7 @@ export default function PortfolioPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Revenue Mix */}
         <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
-          <h3 className="font-serif text-lg text-text mb-4">Revenue Mix Today</h3>
+          <h3 className="font-serif text-lg text-text mb-4">Group Revenue Mix Today</h3>
           <div className="flex items-center gap-6">
             <div className="relative w-[180px] h-[180px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -416,7 +497,7 @@ export default function PortfolioPage() {
               </ResponsiveContainer>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <p className="text-lg font-semibold text-text">£287k</p>
+                  <p className="text-lg font-semibold text-text">£87.7M</p>
                   <p className="text-xs text-text-muted">today</p>
                 </div>
               </div>
@@ -475,7 +556,7 @@ export default function PortfolioPage() {
         </div>
       </div>
 
-      {/* Property Detail Sheet */}
+      {/* Store Detail Sheet */}
       <Sheet open={!!selectedPropertyId} onOpenChange={() => setSelectedPropertyId(null)}>
         <SheetContent className="bg-surface-1 border-l border-[rgba(255,255,255,0.07)] w-[400px]">
           <SheetHeader>
@@ -486,8 +567,8 @@ export default function PortfolioPage() {
           {selectedProperty && (
             <div className="mt-6 space-y-6">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-text-muted">Status</span>
-                <StatusBadge variant="green">Open</StatusBadge>
+                <span className="text-sm text-text-muted">Format</span>
+                <StatusBadge variant="ghost">{formatLabel(selectedProperty.format)}</StatusBadge>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -498,21 +579,21 @@ export default function PortfolioPage() {
                   </p>
                 </div>
                 <div className="bg-surface-2 rounded-lg p-4">
-                  <p className="text-xs text-text-muted mb-1">Occupancy</p>
+                  <p className="text-xs text-text-muted mb-1">Forecast %</p>
                   <p className="text-lg font-semibold text-text tabular-nums">
                     {selectedProperty.occupancy}%
                   </p>
                 </div>
                 <div className="bg-surface-2 rounded-lg p-4">
-                  <p className="text-xs text-text-muted mb-1">F&B Net</p>
+                  <p className="text-xs text-text-muted mb-1">Fresh £</p>
                   <p className="text-lg font-semibold text-text tabular-nums">
                     {formatCurrency(selectedProperty.fbNet)}
                   </p>
                 </div>
                 <div className="bg-surface-2 rounded-lg p-4">
-                  <p className="text-xs text-text-muted mb-1">Members In</p>
+                  <p className="text-xs text-text-muted mb-1">Nectar Today</p>
                   <p className="text-lg font-semibold text-text tabular-nums">
-                    {selectedProperty.membersIn}
+                    {selectedProperty.membersIn.toLocaleString()}
                   </p>
                 </div>
               </div>
@@ -525,13 +606,13 @@ export default function PortfolioPage() {
                   </StatusBadge>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b border-[rgba(255,255,255,0.07)]">
-                  <span className="text-sm text-text-muted">Oracle Status</span>
+                  <span className="text-sm text-text-muted">SAP S/4 HANA Status</span>
                   <StatusBadge variant={selectedProperty.oracleStatus === 'synced' ? 'blue' : 'amber'}>
                     {selectedProperty.oracleStatus === 'synced' ? 'Synced' : 'Held'}
                   </StatusBadge>
                 </div>
                 <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-text-muted">Comps Today</span>
+                  <span className="text-sm text-text-muted">Shrink Today</span>
                   <span className="text-sm text-text tabular-nums">
                     {formatCurrency(selectedProperty.comps)}
                   </span>
@@ -542,7 +623,7 @@ export default function PortfolioPage() {
                 <AlertStrip
                   variant="warning"
                   title="Exception Active"
-                  description="POS variance detected. Review required before Oracle posting."
+                  description="Tellermate variance detected. Review required before SAP posting."
                 />
               )}
 

@@ -21,11 +21,13 @@
   --text-muted: #8a8278;
   --text-faint: #4a4640;
 
-  /* Brand Accent — Gold */
-  --gold: #c9a84c;
-  --gold-dim: #7a6030;
-  --gold-glow: rgba(201,168,76,0.12);
-  --gold-strong: rgba(201,168,76,0.22);
+  /* Brand Accent — Sainsbury's Orange */
+  --gold: #F06C00;
+  --gold-dim: #B85400;
+  --gold-glow: rgba(240,108,0,0.12);
+  --gold-strong: rgba(240,108,0,0.22);
+  --plum: #7F0442;
+  --plum-dim: rgba(127,4,66,0.15);
 
   /* Semantic Colours */
   --green: #4a9e6b;
@@ -137,6 +139,8 @@
   --color-gold-dim: var(--gold-dim);
   --color-gold-glow: var(--gold-glow);
   --color-gold-strong: var(--gold-strong);
+  --color-plum: var(--plum);
+  --color-plum-dim: var(--plum-dim);
   --color-surface-1: var(--surface-1);
   --color-surface-2: var(--surface-2);
   --color-surface-3: var(--surface-3);
@@ -269,6 +273,6 @@
   }
 
   .gold-glow {
-    box-shadow: 0 0 20px rgba(201,168,76,0.15);
+    box-shadow: 0 0 20px rgba(240,108,0,0.18);
   }
 }

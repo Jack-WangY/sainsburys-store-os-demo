@@ -38,95 +38,96 @@ import {
 } from 'recharts'
 import Link from 'next/link'
 
+// Weekly revenue (£k today) for sample stores
 const monthlyRevenueByProperty = [
-  { property: 'Farmhouse', thisMonth: 1240, lastMonth: 1080 },
-  { property: '180 House', thisMonth: 980, lastMonth: 890 },
-  { property: 'Shoreditch', thisMonth: 920, lastMonth: 870 },
-  { property: 'White City', thisMonth: 780, lastMonth: 820 },
-  { property: 'Dean St', thisMonth: 720, lastMonth: 680 },
-  { property: 'High Road', thisMonth: 580, lastMonth: 540 },
-  { property: 'Electric', thisMonth: 540, lastMonth: 510 },
-  { property: 'Mayfair', thisMonth: 420, lastMonth: 390 },
-  { property: 'Balham', thisMonth: 340, lastMonth: 310 },
+  { property: 'Nine Elms', thisMonth: 187, lastMonth: 172 },
+  { property: 'Potters Bar', thisMonth: 143, lastMonth: 136 },
+  { property: 'Cromwell Rd', thisMonth: 125, lastMonth: 119 },
+  { property: 'Fulham Wharf', thisMonth: 102, lastMonth: 98 },
+  { property: 'Whitechapel', thisMonth: 91, lastMonth: 96 },
+  { property: 'Brighton Marina', thisMonth: 78, lastMonth: 74 },
+  { property: 'Argos Stratford', thisMonth: 48, lastMonth: 44 },
+  { property: "King's Cross Local", thisMonth: 39, lastMonth: 36 },
+  { property: 'Holborn Local', thisMonth: 25, lastMonth: 23 },
 ]
 
 const occupancyTrend = Array.from({ length: 30 }, (_, i) => ({
   day: i + 1,
-  ukAvg: 75 + Math.random() * 15,
-  farmhouse: 85 + Math.random() * 12,
+  ukAvg: 82 + Math.random() * 10,
+  potters: 92 + Math.random() * 6,
 }))
 
 const socialTrending = [
   {
     platform: 'Instagram',
-    mentions: 2840,
+    mentions: 4180,
     sentiment: 'positive',
-    trending: ['#SohoFarmhouse', '#SohoHouseUK', '#MembersOnly'],
-    topPost: 'Sunset sessions at the pool - summer vibes',
-    engagement: '+18%',
+    trending: ['#Sainsburys', '#TasteTheDifference', '#NectarCard'],
+    topPost: 'New TTD spring range — strawberries from Kent now in store',
+    engagement: '+22%',
   },
   {
     platform: 'Twitter/X',
-    mentions: 1240,
+    mentions: 2360,
     sentiment: 'neutral',
-    trending: ['@SohoHouse', '#WhiteCityHouse'],
-    topPost: 'New screening room now open at White City',
-    engagement: '+12%',
+    trending: ['@sainsburys', '#Argos', '#NectarPrices'],
+    topPost: 'Argos same-day collection now in 712 Sainsbury\'s stores',
+    engagement: '+9%',
   },
   {
     platform: 'TikTok',
-    mentions: 3420,
+    mentions: 5840,
     sentiment: 'positive',
-    trending: ['#SohoHouse', '#LondonVibes', '#MemberPerks'],
-    topPost: 'Room tour at 180 House - worth it?',
-    engagement: '+45%',
+    trending: ['#Sainsburys', '#MealDeal', '#TuClothing'],
+    topPost: 'Tu Spring 2026 drop — under £20 outfit haul',
+    engagement: '+38%',
   },
 ]
 
 const memberInsights = [
   {
-    title: 'Member Retention Alert',
-    insight: '23 members with lapsed visits >90 days at Shoreditch House',
-    recommendation: 'Trigger re-engagement email with exclusive event invitation',
+    title: 'Nectar Lapsed-Visit Alert',
+    insight: '14,200 Nectar customers at Whitechapel catchment haven\'t swiped in 60+ days',
+    recommendation: 'Trigger personalised £5-off-£40 offer via Nectar app this weekend',
     priority: 'high',
   },
   {
-    title: 'High-Value Member Pattern',
-    insight: 'Tech founders segment showing 34% higher F&B spend on Thursdays',
-    recommendation: 'Consider exclusive Thursday networking event series',
+    title: 'High-Value Basket Pattern',
+    insight: 'Argos in-store collection lifts grocery basket size by 18% on Thursdays at superstores',
+    recommendation: 'Promote Thursday Argos pick-up windows in superstores via SmartShop',
     priority: 'medium',
   },
   {
-    title: 'Cross-Property Opportunity',
-    insight: '156 London members have never visited Soho Farmhouse',
-    recommendation: 'Targeted weekend getaway campaign with priority booking',
+    title: 'Cross-format Opportunity',
+    insight: '230k Local-store-only Nectar shoppers in London have never used Online Groceries',
+    recommendation: 'Target with first-order £15 off for delivery from Nine Elms hub',
     priority: 'medium',
   },
 ]
 
 const campaignOpportunities = [
   {
-    title: 'Summer Pool Series',
-    properties: ['Shoreditch', 'White City'],
-    projectedRevenue: '£45,000',
-    targetSegment: 'Under-30 members',
-    timing: 'June - August',
+    title: 'Easter Fresh Push',
+    properties: ['Potters Bar', 'Nine Elms', 'Cromwell Rd'],
+    projectedRevenue: '£1.4M',
+    targetSegment: 'Family shoppers, TTD',
+    timing: 'Easter weekend',
     status: 'ready',
   },
   {
-    title: 'Cotswolds Culinary Weekend',
-    properties: ['Soho Farmhouse'],
-    projectedRevenue: '£28,000',
-    targetSegment: 'Foodies, 35-50',
+    title: 'Tu Spring Wardrobe Edit',
+    properties: ['Nine Elms', 'Brighton Marina'],
+    projectedRevenue: '£820k',
+    targetSegment: 'Tu loyalists, 25-45',
     timing: 'May weekends',
     status: 'planning',
   },
   {
-    title: 'Members-Only Cinema Preview',
-    properties: ['Electric House', 'White City'],
-    projectedRevenue: '£12,000',
-    targetSegment: 'Film enthusiasts',
-    timing: 'Q2 Film releases',
+    title: 'Argos in Sainsbury\'s — Click & Collect',
+    properties: ['Stratford', 'Whitechapel', 'Cromwell Rd'],
+    projectedRevenue: '£640k',
+    targetSegment: 'Cross-shop families',
+    timing: 'Bank holiday',
     status: 'ready',
   },
 ]
@@ -134,50 +135,50 @@ const campaignOpportunities = [
 const aiInsightsChat = [
   {
     id: '1',
-    content: "I can provide AI-powered insights across your portfolio. What would you like to explore? Try asking about revenue trends, member behaviour, or marketing opportunities.",
+    content: "I'm Argos AI. I can analyse trading across the 600-store estate. Try asking about revenue trends, Nectar customer behaviour, or campaign opportunities.",
     sender: 'system' as const,
   },
 ]
 
 const aiResponses: Record<string, string> = {
-  revenue: `Based on the last 30 days:
+  revenue: `Based on the last 30 trading days:
 
 **Revenue Trends:**
-- Soho Farmhouse leads with £1.24M (+15% MoM)
-- White City showing decline (-5%) - investigate bar revenue dip
-- Overall portfolio up 9.2% YTD
+- Nine Elms leads at £187k/day (+8.7% MoM)
+- Whitechapel showing dip (-5%) — investigate Tellermate variance
+- Group up 4.2% YoY on a like-for-like basis
 
-**Recommendation:** Consider reallocating F&B staff from quieter midweek Balham shifts to support Farmhouse weekend demand.`,
-  
-  member: `**Member Behaviour Analysis:**
+**Recommendation:** Reallocate fresh & grocery replen capacity from quieter midweek Local stores into superstore weekend demand windows.`,
 
-- Average member visits: 3.2x per month
-- Peak visit times: Thu-Sat 18:00-22:00
-- Cross-property usage: 28% visit multiple houses
+  member: `**Nectar Customer Behaviour:**
 
-**Key Insight:** Members who attend events are 2.4x more likely to renew. Consider increasing event programming at underperforming properties.`,
+- Average visits per active Nectar member: 3.6x per month
+- Peak swipe times: Thu-Sat 17:00-19:30
+- Cross-format usage: 31% shop both superstore + Local
 
-  marketing: `**Marketing Opportunities Identified:**
+**Key Insight:** Customers who redeem a personalised Nectar Prices offer are 2.1x more likely to repeat that category within 14 days.`,
 
-1. **Summer Pool Campaign** - Ready to launch
-   Target: Under-30 members
-   Projected: £45k revenue
+  marketing: `**Campaign Opportunities Identified:**
 
-2. **Lapsed Member Re-engagement**
-   23 members inactive >90 days at Shoreditch
-   Recommend: Exclusive event invitation
+1. **Easter Fresh Push** — Ready to launch
+   Target: Family TTD shoppers
+   Projected: £1.4M revenue
 
-3. **Cross-sell Farmhouse**
-   156 London members never visited
-   Recommend: Weekend getaway promo`,
+2. **Lapsed-Visit Re-engagement**
+   14.2k Nectar customers inactive >60 days at Whitechapel
+   Recommend: £5-off-£40 personalised offer
 
-  default: `I've analysed your portfolio data. Here are the key insights:
+3. **Online cross-sell**
+   230k Local-only customers haven't tried Online Groceries
+   Recommend: First-order £15 off`,
 
-**Top Performer:** Soho Farmhouse (96% occupancy, £68.9k daily revenue)
-**Attention Needed:** White City House (bar variance, Oracle posting held)
-**Opportunity:** 156 London members haven't visited Farmhouse - cross-sell potential
+  default: `I've analysed group trading. Here are the key insights:
 
-Would you like me to dive deeper into any of these areas?`,
+**Top Performer:** Nine Elms (88% of forecast, £187k/day)
+**Attention Needed:** Whitechapel (Tellermate variance, SAP posting held)
+**Opportunity:** 230k Local-only Nectar shoppers haven't tried online — cross-sell potential
+
+Would you like me to dive deeper into any of these?`,
 }
 
 export default function MultiSitePage() {
@@ -197,7 +198,7 @@ export default function MultiSitePage() {
       const lowerContent = content.toLowerCase()
       let responseKey = 'default'
       if (lowerContent.includes('revenue') || lowerContent.includes('sales')) responseKey = 'revenue'
-      else if (lowerContent.includes('member') || lowerContent.includes('behaviour')) responseKey = 'member'
+      else if (lowerContent.includes('nectar') || lowerContent.includes('member') || lowerContent.includes('customer')) responseKey = 'member'
       else if (lowerContent.includes('marketing') || lowerContent.includes('campaign')) responseKey = 'marketing'
 
       const systemMessage = {
@@ -221,41 +222,41 @@ export default function MultiSitePage() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard
-          title="YTD Revenue"
+          title="YTD Group Revenue"
           icon={<PoundSterling className="w-3.5 h-3.5" />}
-          value="£38.4M"
-          label="UK Portfolio · FY2026"
-          delta={{ direction: 'up', value: '9.2%', label: 'vs FY2025' }}
+          value="£32.1B"
+          label="600 stores · FY2026"
+          delta={{ direction: 'up', value: '4.2%', label: 'vs FY2025' }}
         />
         <KPICard
-          title="EBITDA Margin"
+          title="Underlying EBITDA Margin"
           icon={<TrendingUp className="w-3.5 h-3.5" />}
-          value="18.6%"
-          label="Improved from 14.2%"
-          delta={{ direction: 'up', value: '4.4pts', label: 'YoY' }}
+          value="6.1%"
+          label="Group operating performance"
+          delta={{ direction: 'up', value: '0.4pts', label: 'YoY' }}
         />
         <KPICard
-          title="Membership Revenue"
+          title="Nectar Active Base"
           icon={<Users className="w-3.5 h-3.5" />}
-          value="£12.1M"
-          label="42% of total revenue"
-          delta={{ direction: 'up', value: '7.8%' }}
+          value="19.8M"
+          label="Active in last 12 weeks"
+          delta={{ direction: 'up', value: '6.2%' }}
         />
         <KPICard
-          title="F&B Covers MTD"
+          title="Fresh & Grocery Baskets MTD"
           icon={<Utensils className="w-3.5 h-3.5" />}
-          value="48,320"
-          label="Avg spend £34.20/cover"
-          delta={{ direction: 'up', value: '5.6%' }}
+          value="42.6M"
+          label="Avg basket £28.40"
+          delta={{ direction: 'up', value: '3.6%' }}
         />
       </div>
 
       {/* Tab Navigation */}
       <div className="flex items-center gap-2 border-b border-[rgba(255,255,255,0.07)] pb-0">
         {[
-          { id: 'overview', label: 'Portfolio Overview', icon: BarChart3 },
-          { id: 'insights', label: 'AI Insights', icon: Brain },
-          { id: 'social', label: 'Social & Member Trends', icon: Hash },
+          { id: 'overview', label: 'Estate Overview', icon: BarChart3 },
+          { id: 'insights', label: 'Argos AI Insights', icon: Brain },
+          { id: 'social', label: 'Social & Customer Trends', icon: Hash },
           { id: 'campaigns', label: 'Campaign Opportunities', icon: Target },
         ].map((tab) => {
           const Icon = tab.icon
@@ -281,15 +282,15 @@ export default function MultiSitePage() {
         <>
           {/* Charts Row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Monthly Revenue by Property */}
+            {/* Daily Revenue by Store */}
             <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
-              <h3 className="font-serif text-lg text-text mb-4">Monthly Revenue by Property</h3>
+              <h3 className="font-serif text-lg text-text mb-4">Daily Revenue by Store (£k)</h3>
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={monthlyRevenueByProperty} layout="vertical">
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
                     <XAxis type="number" stroke="#8a8278" fontSize={11} tickFormatter={(v) => `£${v}k`} />
-                    <YAxis type="category" dataKey="property" stroke="#8a8278" fontSize={11} width={80} />
+                    <YAxis type="category" dataKey="property" stroke="#8a8278" fontSize={11} width={100} />
                     <Tooltip
                       contentStyle={{
                         backgroundColor: '#1a1815',
@@ -299,22 +300,22 @@ export default function MultiSitePage() {
                       formatter={(value: number) => [`£${value}k`, '']}
                     />
                     <Legend />
-                    <Bar dataKey="thisMonth" name="This Month" fill="#c9a84c" radius={[0, 4, 4, 0]} />
-                    <Bar dataKey="lastMonth" name="Last Month" fill="rgba(201,168,76,0.3)" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="thisMonth" name="Today" fill="#c9a84c" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="lastMonth" name="LY same day" fill="rgba(201,168,76,0.3)" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
-            {/* Occupancy Trend */}
+            {/* Forecast attainment trend */}
             <div className="bg-surface-1 border border-[rgba(255,255,255,0.07)] rounded-[var(--radius-xl)] p-6">
-              <h3 className="font-serif text-lg text-text mb-4">30-Day Occupancy Trend</h3>
+              <h3 className="font-serif text-lg text-text mb-4">30-Day Forecast Attainment</h3>
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={occupancyTrend}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
                     <XAxis dataKey="day" stroke="#8a8278" fontSize={11} />
-                    <YAxis stroke="#8a8278" fontSize={11} domain={[60, 100]} tickFormatter={(v) => `${v}%`} />
+                    <YAxis stroke="#8a8278" fontSize={11} domain={[70, 100]} tickFormatter={(v) => `${v}%`} />
                     <Tooltip
                       contentStyle={{
                         backgroundColor: '#1a1815',
@@ -327,15 +328,15 @@ export default function MultiSitePage() {
                     <Line
                       type="monotone"
                       dataKey="ukAvg"
-                      name="UK Average"
+                      name="UK Estate Avg"
                       stroke="#c9a84c"
                       strokeWidth={2}
                       dot={false}
                     />
                     <Line
                       type="monotone"
-                      dataKey="farmhouse"
-                      name="Soho Farmhouse"
+                      dataKey="potters"
+                      name="Potters Bar"
                       stroke="#4a9e6b"
                       strokeWidth={2}
                       strokeDasharray="5 5"
@@ -347,9 +348,9 @@ export default function MultiSitePage() {
             </div>
           </div>
 
-          {/* Property Cards Grid */}
+          {/* Store Cards Grid */}
           <div>
-            <h3 className="font-serif text-lg text-text mb-4">Site Intelligence</h3>
+            <h3 className="font-serif text-lg text-text mb-4">Store Intelligence</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {state.properties.slice(0, 6).map((property) => (
                 <PropertyCard key={property.id} property={property} />
@@ -368,23 +369,23 @@ export default function MultiSitePage() {
                 <Sparkles className="w-4 h-4 text-background" />
               </div>
               <div>
-                <h3 className="font-serif text-lg text-text">AI Portfolio Analyst</h3>
-                <p className="text-xs text-text-muted">Powered by House OS Intelligence</p>
+                <h3 className="font-serif text-lg text-text">Argos AI Estate Analyst</h3>
+                <p className="text-xs text-text-muted">Powered by Store OS Intelligence</p>
               </div>
             </div>
             <div className="h-[450px]">
               <ChatInterface
                 messages={aiMessages}
                 onSend={handleAiSend}
-                placeholder="Ask about revenue, members, marketing..."
-                userInitials="EX"
+                placeholder="Ask about revenue, Nectar customers, campaigns..."
+                userInitials="BB"
               />
             </div>
           </div>
 
-          {/* Member Insights */}
+          {/* Customer Insights */}
           <div className="space-y-4">
-            <h3 className="font-serif text-lg text-text">AI-Generated Member Insights</h3>
+            <h3 className="font-serif text-lg text-text">AI-Generated Nectar Insights</h3>
             {memberInsights.map((insight, i) => (
               <div
                 key={i}
@@ -468,7 +469,7 @@ export default function MultiSitePage() {
           <AlertStrip
             variant="info"
             title="Social Listening Active"
-            description="House OS monitors brand mentions across Instagram, Twitter/X, TikTok, and LinkedIn. Sentiment analysis runs hourly."
+            description="Store OS monitors brand mentions across Instagram, Twitter/X, TikTok, and LinkedIn. Sentiment analysis runs hourly."
           />
         </div>
       )}
@@ -533,12 +534,12 @@ export default function MultiSitePage() {
                 <Sparkles className="w-5 h-5 text-gold" />
               </div>
               <div>
-                <h4 className="font-medium text-text mb-2">AI Campaign Recommendation</h4>
+                <h4 className="font-medium text-text mb-2">Argos AI Campaign Recommendation</h4>
                 <p className="text-sm text-text-muted mb-4">
-                  Based on member behavior patterns and seasonal trends, launching the Summer Pool Series 
-                  in the first week of June could capture peak demand from under-30 members who show 
-                  highest engagement during warm weather periods. Historical data suggests Thursday 
-                  evening launches perform 23% better than weekend launches for this demographic.
+                  Based on Nectar swipe behaviour and Easter trading patterns, launching the Easter Fresh Push
+                  by the Saturday before bank holiday could capture peak family-shop demand. Stores with TTD
+                  density above 32% over-index by 14% on Easter weekend; surge fresh capacity at Potters Bar,
+                  Nine Elms, and Cromwell Road.
                 </p>
                 <Button size="sm" className="bg-gold hover:bg-gold/90 text-background">
                   Apply AI Recommendation

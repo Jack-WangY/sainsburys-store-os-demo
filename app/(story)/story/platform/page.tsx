@@ -5,9 +5,9 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { 
+import {
   ArrowRight,
-  Moon,
+  Banknote,
   Activity,
   LayoutDashboard,
   ClipboardCheck,
@@ -24,15 +24,15 @@ import {
 
 const personas = [
   {
-    id: 'floor-manager',
+    id: 'store-manager',
     name: 'James Liu',
-    role: 'Floor Manager',
-    description: 'Capture shift context as events happen. Log commentary, record incidents, and see how your inputs flow through to the night supervisor, GM, and reports.',
+    role: 'Store Manager, Whitechapel',
+    description: 'Capture cash office and shrink context as it happens. Log shift commentary, record stock incidents, and see how your inputs flow to the audit team, finance, and the CFO pack.',
     loginRole: 'floor',
     features: [
-      'Shift summary and commentary',
-      'Incident and event logging',
-      'Revenue capture by outlet',
+      'Daily cash office summary and commentary',
+      'Shrink and wastage event logging',
+      'Department revenue capture',
       'Real-time context that flows everywhere',
     ],
     icon: ClipboardList,
@@ -40,46 +40,46 @@ const personas = [
     routes: ['/floor', '/shift'],
   },
   {
-    id: 'night-supervisor',
-    name: 'Night Supervisor',
-    role: 'Night Supervisor / Finance Auditor',
-    description: 'Experience the revenue audit workflow from the night supervisor\'s perspective. See how reconciliation, exception handling, and Oracle posting work in the AI-driven model.',
+    id: 'audit-lead',
+    name: 'Priya Shah',
+    role: 'Daily Audit Lead',
+    description: 'Experience the period-close workflow from the daily audit team\'s perspective. See how 3-way invoice match, exception handling, and SAP posting work in the AI-driven model.',
     loginRole: 'finance',
     features: [
-      'Remote revenue audit with automated reconciliation',
-      'Oracle Fusion journal posting',
+      'Continuous close with automated reconciliation',
+      'SAP S/4HANA journal posting',
       'Exception-based workflow',
-      'Real-time system monitoring',
+      'Real-time integration monitoring',
     ],
-    icon: Moon,
+    icon: Banknote,
     color: 'gold',
     routes: ['/audit', '/reconciliation'],
   },
   {
-    id: 'emma',
+    id: 'supply-chain',
     name: 'Emma Park',
-    role: 'Property GM',
-    description: 'See what the property manager experiences. Daily performance dashboard, live transaction feeds, and commentary from last night—all ready when you arrive.',
+    role: 'Supply Chain Controller',
+    description: 'See what the supply-chain controller experiences. Daily DC-to-store performance, live stock movements, and shrink trends — all ready when you arrive.',
     loginRole: 'gm',
     features: [
-      'Morning performance dashboard',
-      'Live transaction feed',
-      'Floor manager commentary visible',
+      'Morning supply-chain dashboard',
+      'Live DC and store transfer feed',
+      'Store manager commentary visible',
       'Drill-down into any variance',
     ],
     icon: Activity,
     color: 'green',
-    routes: ['/gm', '/ops'],
+    routes: ['/floor', '/ops'],
   },
   {
     id: 'finance-ops',
     name: 'Rachel Thompson',
     role: 'Finance Director - Operations',
-    description: 'Track patterns across properties. See which sites closed clean, where variances recur, and how the portfolio is performing—without manual consolidation.',
+    description: 'Track patterns across stores. See which stores closed clean, where variances recur, and how the network is performing — without manual consolidation.',
     loginRole: 'finance-ops',
     features: [
-      'Cross-property variance patterns',
-      'Site-by-site close status',
+      'Cross-store variance patterns',
+      'Store-by-store close status',
       'Trend analysis over time',
       'Reconciliation already done',
     ],
@@ -88,13 +88,13 @@ const personas = [
     routes: ['/finance-ops', '/cross-site'],
   },
   {
-    id: 'sarah',
+    id: 'cfo',
     name: 'Sarah Mitchell',
-    role: 'Executive',
-    description: 'The portfolio view for leadership. See all 9 UK properties unified, with AI-generated insights and full traceability one click away.',
+    role: 'CFO',
+    description: 'The network view for the executive. See all 600+ Sainsbury\'s stores unified, with AI-generated insights and full traceability one click away.',
     loginRole: 'exco',
     features: [
-      'Portfolio-wide visibility',
+      'Network-wide visibility',
       'AI-generated insight summaries',
       'Full audit trail on demand',
       'Executive alerts and trends',
@@ -107,38 +107,38 @@ const personas = [
 
 const features = [
   {
-    title: 'Remote Revenue Audit',
-    description: 'Close the books without leaving home. 10-step automated audit closes all 9 UK properties remotely.',
+    title: 'AI-Powered Daily Audit',
+    description: 'Close the books continuously. Automated audit covers all 600+ Sainsbury\'s stores without leaving the office.',
     href: '/audit',
-    icon: Moon,
+    icon: Banknote,
   },
   {
-    title: 'Reconciliation Hub',
-    description: '248 automated checkpoints run nightly. Exceptions flagged, resolved, and tracked with full audit trail.',
+    title: '3-Way Invoice Match',
+    description: 'Invoice, PO, and GRN matched automatically the moment goods are received. Exceptions flagged with full audit trail.',
     href: '/reconciliation',
     icon: ClipboardCheck,
   },
   {
-    title: 'Live Data Feed',
-    description: 'Real-time event stream from all integrated systems. PMS, POS, Spa, Payments—all visible in one place.',
+    title: 'Real-Time Shrinkage',
+    description: 'Live stock event stream from POS, WMS, and store apps. Shrink hot-spots visible in hours, not weeks.',
     href: '/data-feed',
     icon: Wifi,
   },
   {
-    title: 'Portfolio Intelligence',
-    description: '9 UK properties unified. Revenue, occupancy, and exceptions across the entire portfolio.',
+    title: 'Network Intelligence',
+    description: '600+ stores unified. Sales, stock, and exceptions across the entire Sainsbury\'s network.',
     href: '/portfolio',
     icon: Building2,
   },
   {
-    title: 'Daily Ops Report',
-    description: 'Food net sales, cinema and gym revenue, comps and voids, staff allowances—auto-generated and distributed.',
+    title: 'Continuous Close Report',
+    description: 'Sales, shrink, supplier accruals, inter-co transfers — auto-generated and distributed to the audit team and CFO.',
     href: '/ops',
     icon: Activity,
   },
   {
-    title: 'Oracle AI Assistant',
-    description: 'Your 24/7 executive assistant. Surfaces insights, progresses tasks, and tells you what needs attention.',
+    title: 'Argos AI Assistant',
+    description: 'Your 24/7 finance assistant. Surfaces insights, progresses tasks, and tells the CFO what needs attention.',
     href: '/portfolio',
     icon: Sparkles,
   },
@@ -146,24 +146,24 @@ const features = [
 
 const businessImpact = [
   {
-    metric: '2.4 hours',
-    label: 'Saved per night per property',
-    description: 'From manual reconciliation to exception-only review',
+    metric: '1 day',
+    label: 'Period close',
+    description: 'From 11 days to a continuous, always-ready close',
   },
   {
-    metric: '99.2%',
-    label: 'Auto-cleared transactions',
-    description: 'Only genuine exceptions need human attention',
+    metric: '97%',
+    label: 'Invoices auto-matched',
+    description: 'Working capital freed; AP team focused on exceptions',
   },
   {
-    metric: '02:41',
-    label: 'Average close time',
-    description: 'Down from 04:30 under manual process',
+    metric: '24h',
+    label: 'Shrink detection',
+    description: 'Down from 2-week lag — act while the cause is still live',
   },
   {
-    metric: '9 properties',
-    label: 'Unified in one platform',
-    description: 'Single source of truth for operations and finance',
+    metric: '600+ stores',
+    label: 'Unified on one ledger',
+    description: 'Single source of truth for finance and supply chain',
   },
 ]
 
@@ -175,7 +175,7 @@ export default function PlatformPage() {
       {/* Hero Section */}
       <section className="relative py-16 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-[#EBE3DB]" />
-        
+
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -186,17 +186,17 @@ export default function PlatformPage() {
               <Sparkles className="w-4 h-4 text-gold" />
               <span className="text-sm text-gold font-medium">Experience It</span>
             </div>
-            
+
             <h1 className="font-serif text-4xl md:text-5xl text-black mb-4">
-              House OS Platform
+              Sainsbury&apos;s Store OS Platform
             </h1>
             <p className="text-xl text-black mb-6">
               See the Vision in Action
             </p>
             <p className="text-black/80 max-w-2xl mx-auto leading-relaxed">
-              This is the vision brought to life. Explore the platform through different personas—each 
-              representing a real role that interacts with the revenue audit process and benefits from 
-              the AI-driven operating model.
+              This is the vision brought to life. Explore the platform through different personas — each
+              representing a real role across finance and supply chain that interacts with the period close
+              and benefits from the AI-driven operating model.
             </p>
           </motion.div>
         </div>
@@ -216,7 +216,7 @@ export default function PlatformPage() {
             {personas.map((persona, i) => {
               const Icon = persona.icon
               const isSelected = selectedPersona === persona.id
-              
+
               return (
                 <motion.div
                   key={persona.id}
@@ -226,8 +226,8 @@ export default function PlatformPage() {
                   onClick={() => setSelectedPersona(isSelected ? null : persona.id)}
                   className={cn(
                     "bg-white/50 border rounded-xl p-6 cursor-pointer transition-all w-full md:w-[calc(33.333%-1rem)] md:max-w-[320px]",
-                    isSelected 
-                      ? "border-gold shadow-lg shadow-gold/10" 
+                    isSelected
+                      ? "border-gold shadow-lg shadow-gold/10"
                       : "border-black/10 hover:border-gold/30"
                   )}
                 >
@@ -244,7 +244,7 @@ export default function PlatformPage() {
                   <h3 className="font-medium text-black mb-1">{persona.name}</h3>
                   <p className="text-sm text-black/70 mb-3">{persona.role}</p>
                   <p className="text-xs text-black/50 mb-4">{persona.description}</p>
-                  
+
                   <ul className="space-y-1 mb-4">
                     {persona.features.slice(0, 3).map((f, idx) => (
                       <li key={idx} className="flex items-center gap-2 text-xs text-black/70">
@@ -255,11 +255,11 @@ export default function PlatformPage() {
                   </ul>
 
                   <Link href={`/login?role=${persona.loginRole}`}>
-                    <Button 
+                    <Button
                       className={cn(
                         "w-full",
-                        isSelected 
-                          ? "bg-gold hover:bg-gold/90 text-background" 
+                        isSelected
+                          ? "bg-gold hover:bg-gold/90 text-background"
                           : "bg-[#DDD5CC] hover:bg-[#D4CBC1] text-black"
                       )}
                     >
@@ -342,16 +342,16 @@ export default function PlatformPage() {
           {/* Final CTA */}
           <div className="bg-gradient-to-br from-gold/10 to-gold/5 border border-gold/20 rounded-2xl p-8 text-center">
             <h3 className="font-serif text-2xl text-black mb-4">
-              Ready to Transform Your Revenue Audit?
+              Ready to Transform Your Period Close?
             </h3>
             <p className="text-black/70 mb-6 max-w-lg mx-auto">
-              This is the future of hospitality operations. From manual close to intelligent oversight—
-              House OS makes it possible.
+              This is the future of grocery retail finance and supply chain. From 11-day fire drill to continuous,
+              intelligent oversight — Store OS makes it possible.
             </p>
             <div className="flex items-center justify-center gap-4 flex-wrap">
               <Link href="/login">
                 <Button className="bg-gold hover:bg-gold/90 text-background px-8 py-6 text-base">
-                  Enter House OS
+                  Enter Store OS
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>

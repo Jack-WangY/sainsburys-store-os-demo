@@ -9,19 +9,17 @@ import {
   LayoutDashboard,
   Building2,
   FileText,
-  Moon,
-  Settings,
-  Activity,
+  ShoppingBasket,
   ClipboardCheck,
-  ClipboardList,
-  Wifi,
+  Truck,
   ChevronLeft,
   ChevronRight,
   Bell,
   LogOut,
   BarChart3,
+  Receipt,
+  Trash2,
 } from 'lucide-react'
-import { StatusBadge } from './status-badge'
 import { Button } from '@/components/ui/button'
 import { DemoGuideButton } from './demo-guide-overlay'
 
@@ -30,21 +28,19 @@ interface AppShellProps {
 }
 
 const navItems = [
-  { label: 'EXECUTIVE', items: [
-    { href: '/portfolio', label: 'Portfolio', icon: LayoutDashboard },
-    { href: '/multi-site', label: 'Multi-Site View', icon: Building2 },
-  ]},
-  { label: 'OPERATIONS', items: [
-    { href: '/ops', label: 'Daily Ops Report', icon: FileText },
-    { href: '/floor', label: 'Shift Dashboard', icon: ClipboardList },
-    { href: '/gm', label: 'GM Dashboard', icon: Activity },
-    { href: '/data-feed', label: 'Live Data Feed', icon: Wifi, badge: 3 },
+  { label: 'CFO', items: [
+    { href: '/portfolio', label: 'Portfolio P&L', icon: LayoutDashboard },
+    { href: '/multi-site', label: 'Store Network', icon: Building2 },
   ]},
   { label: 'FINANCE', items: [
-    { href: '/audit', label: 'Night Audit', icon: Moon },
-    { href: '/reconciliation', label: 'Reconciliation', icon: ClipboardCheck, badge: 2 },
-    { href: '/finance-ops', label: 'Cross-Property', icon: BarChart3 },
-    { href: '/offline', label: 'Offline Checker', icon: Settings },
+    { href: '/audit', label: 'Daily Store Audit', icon: ClipboardCheck },
+    { href: '/reconciliation', label: 'Cash Reconciliation', icon: Receipt, badge: 2 },
+    { href: '/finance-ops', label: 'Continuous Close', icon: BarChart3 },
+  ]},
+  { label: 'SUPPLY CHAIN', items: [
+    { href: '/ops', label: 'Invoice → PO → GRN', icon: FileText, badge: 3 },
+    { href: '/floor', label: 'Shrinkage & Wastage', icon: Trash2 },
+    { href: '/data-feed', label: 'DC ↔ Store Flow', icon: Truck },
   ]},
 ]
 
@@ -60,10 +56,10 @@ export function AppShell({ children }: AppShellProps) {
   }
 
   const oracleStatusLabel = {
-    synced: 'Oracle Fusion Sync',
-    posting: 'Posting to Oracle...',
-    held: '1 Property Held',
-    offline: 'Oracle Offline',
+    synced: 'SAP S/4 Synced',
+    posting: 'Posting to SAP...',
+    held: '1 Store Held',
+    offline: 'SAP Offline',
   }[state.oracleStatus]
 
   const oracleStatusColor = {
@@ -73,36 +69,32 @@ export function AppShell({ children }: AppShellProps) {
     offline: 'red',
   }[state.oracleStatus] as 'green' | 'gold' | 'amber' | 'red'
 
-  // Get current page title
   const getPageTitle = () => {
     const flatItems = navItems.flatMap(g => g.items)
     const current = flatItems.find(item => pathname.startsWith(item.href))
-    return current?.label || 'Dashboard'
+    return current?.label || 'Store OS'
   }
 
   return (
     <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
       <aside
         className={cn(
           "fixed left-0 top-0 h-screen flex flex-col border-r border-[rgba(255,255,255,0.07)] bg-surface-1 transition-all duration-300 z-30",
           isCollapsed ? "w-14" : "w-[220px]"
         )}
       >
-        {/* Logo */}
         <div className={cn("flex items-center gap-3 px-4 py-5 border-b border-[rgba(255,255,255,0.07)]", isCollapsed && "justify-center")}>
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold to-gold-dim flex items-center justify-center flex-shrink-0">
-            <span className="text-background font-bold text-sm">H</span>
+            <ShoppingBasket className="w-4 h-4 text-white" />
           </div>
           {!isCollapsed && (
             <div>
-              <h1 className="text-sm font-semibold text-text">House OS</h1>
-              <p className="text-[10px] text-text-muted">UK Properties</p>
+              <h1 className="text-sm font-semibold text-text">Store OS</h1>
+              <p className="text-[10px] text-text-muted">Sainsbury&apos;s · Demo</p>
             </div>
           )}
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-4 px-2">
           {navItems.map((group) => (
             <div key={group.label} className="mb-4">
@@ -146,7 +138,6 @@ export function AppShell({ children }: AppShellProps) {
           ))}
         </nav>
 
-        {/* User footer */}
         <div className={cn("border-t border-[rgba(255,255,255,0.07)] p-3", isCollapsed && "flex flex-col items-center gap-2")}>
           {state.user && (
             <div className={cn("flex items-center gap-3 mb-3", isCollapsed && "mb-0")}>
@@ -184,20 +175,16 @@ export function AppShell({ children }: AppShellProps) {
         </div>
       </aside>
 
-      {/* Main content */}
       <div className={cn("flex-1 flex flex-col transition-all duration-300", isCollapsed ? "ml-14" : "ml-[220px]")}>
-        {/* Top bar */}
         <header className="sticky top-0 z-20 h-[60px] flex items-center justify-between px-6 border-b border-[rgba(255,255,255,0.07)] bg-background/80 backdrop-blur-md">
           <div>
             <h2 className="font-serif text-lg text-text">{getPageTitle()}</h2>
-            <p className="text-xs text-text-muted">9 UK Properties · Live</p>
+            <p className="text-xs text-text-muted">9 demo stores · 600+ in production · Live</p>
           </div>
 
-<div className="flex items-center gap-3">
-          {/* Demo Mode Button */}
-          <DemoGuideButton />
-          
-          {/* Oracle status pill */}
+          <div className="flex items-center gap-3">
+            <DemoGuideButton />
+
             <div className={cn(
               "flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs",
               "bg-surface-3 border-[rgba(255,255,255,0.07)]"
@@ -212,7 +199,6 @@ export function AppShell({ children }: AppShellProps) {
               <span className="text-text-muted">{oracleStatusLabel}</span>
             </div>
 
-            {/* Notifications */}
             <button className="relative p-2 rounded-lg hover:bg-surface-3 transition-colors">
               <Bell className="w-5 h-5 text-text-muted" />
               {state.auditExceptions.filter(e => e.status === 'open').length > 0 && (
@@ -222,7 +208,6 @@ export function AppShell({ children }: AppShellProps) {
           </div>
         </header>
 
-        {/* Page content */}
         <main className="flex-1 p-6 overflow-y-auto">
           {children}
         </main>

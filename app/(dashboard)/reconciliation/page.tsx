@@ -16,45 +16,45 @@ import {
   Building2,
 } from 'lucide-react'
 
-// Properties list
+// Stores list
 const properties = [
-  { id: 'all', name: 'All UK Properties' },
-  { id: 'white-city', name: 'White City House' },
-  { id: 'shoreditch', name: 'Shoreditch House' },
-  { id: 'soho-farmhouse', name: 'Soho Farmhouse' },
-  { id: '180-house', name: '180 House' },
-  { id: 'electric-house', name: 'Electric House' },
-  { id: 'dean-street', name: 'Soho House Dean Street' },
-  { id: 'little-house', name: 'Little House Mayfair' },
-  { id: 'greek-street', name: 'Soho House 40 Greek Street' },
-  { id: 'the-ned', name: 'The Ned' },
+  { id: 'all', name: 'All UK Stores' },
+  { id: 'potters-bar', name: "Sainsbury's Potters Bar" },
+  { id: 'nine-elms', name: "Sainsbury's Nine Elms" },
+  { id: 'kings-cross', name: "Sainsbury's Local King's Cross" },
+  { id: 'whitechapel', name: "Sainsbury's Whitechapel" },
+  { id: 'cromwell-road', name: "Sainsbury's Cromwell Road" },
+  { id: 'holborn', name: "Sainsbury's Local Holborn" },
+  { id: 'fulham-wharf', name: "Sainsbury's Fulham Wharf" },
+  { id: 'argos-stratford', name: 'Argos Stratford (in-store)' },
+  { id: 'brighton-marina', name: "Sainsbury's Brighton Marina" },
 ]
 
 // System integrations status
 const systemIntegrations = [
-  { name: 'Opera Cloud', type: 'PMS', status: 'connected', lastSync: '00:48 GMT', records: 847, latency: '124ms' },
-  { name: 'Simphony', type: 'POS', status: 'connected', lastSync: '00:52 GMT', records: 2341, latency: '89ms' },
-  { name: 'Book4Time', type: 'Spa & Wellness', status: 'connected', lastSync: '00:56 GMT', records: 156, latency: '201ms' },
-  { name: 'Veezi', type: 'Cinema', status: 'connected', lastSync: '00:58 GMT', records: 423, latency: '156ms' },
-  { name: 'Adyen', type: 'Payments', status: 'connected', lastSync: '01:02 GMT', records: 3847, latency: '67ms' },
-  { name: 'Oracle Fusion', type: 'ERP', status: 'ready', lastSync: 'Pending close', records: 0, latency: '-' },
+  { name: 'Symphony POS', type: 'Tills', status: 'connected', lastSync: '00:48 GMT', records: 14820, latency: '124ms' },
+  { name: 'Tellermate', type: 'Cash Office', status: 'connected', lastSync: '00:52 GMT', records: 384, latency: '89ms' },
+  { name: 'Nectar Engine', type: 'Loyalty', status: 'connected', lastSync: '00:56 GMT', records: 6240, latency: '201ms' },
+  { name: 'Argos OMS', type: 'In-store Argos', status: 'connected', lastSync: '00:58 GMT', records: 1247, latency: '156ms' },
+  { name: 'Adyen', type: 'Card Settlements', status: 'connected', lastSync: '01:02 GMT', records: 18420, latency: '67ms' },
+  { name: 'SAP S/4 HANA', type: 'ERP', status: 'ready', lastSync: 'Pending close', records: 0, latency: '-' },
 ]
 
 
 
 // Reconciliation by category
 const reconciliationCategories = [
-  { category: 'Room Revenue', opera: 127420, simphony: 127420, variance: 0, status: 'matched' },
-  { category: 'F&B Gross', opera: 89500, simphony: 89500, variance: 0, status: 'matched' },
-  { category: 'Health Club', opera: 14380, simphony: 14427, variance: 47, status: 'variance' },
-  { category: 'Cinema & Events', opera: 8240, simphony: 8240, variance: 0, status: 'matched' },
-  { category: 'Comps & Allowances', opera: 9740, simphony: 9740, variance: 0, status: 'matched' },
-  { category: 'Payments Received', opera: 241160, simphony: 241500, variance: 340, status: 'variance' },
+  { category: 'Cash office vs Tellermate', opera: 142380, simphony: 142380, variance: 0, status: 'matched' },
+  { category: 'Fresh & Ambient (POS vs Stock)', opera: 58420, simphony: 58420, variance: 0, status: 'matched' },
+  { category: 'Argos in-store vs Main Till', opera: 18640, simphony: 18952, variance: 312, status: 'variance' },
+  { category: 'Fuel & Online (GOL)', opera: 41280, simphony: 41280, variance: 0, status: 'matched' },
+  { category: 'Nectar redemptions vs SAP', opera: 7240, simphony: 7240, variance: 0, status: 'matched' },
+  { category: 'Card Settlements vs Bank File', opera: 167580, simphony: 167720, variance: 140, status: 'variance' },
 ]
 
 export default function ReconciliationHub() {
   const [isRunning, setIsRunning] = useState(false)
-  const [selectedProperty, setSelectedProperty] = useState('white-city')
+  const [selectedProperty, setSelectedProperty] = useState('whitechapel')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const currentProperty = properties.find(p => p.id === selectedProperty) || properties[0]
@@ -78,12 +78,12 @@ export default function ReconciliationHub() {
 
   return (
     <div className="space-y-6">
-      {/* Header with Property Selector */}
+      {/* Header with Store Selector */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h1 className="font-serif text-2xl text-text">Reconciliation Hub</h1>
-            {/* Property Dropdown */}
+            <h1 className="font-serif text-2xl text-text">Cash Reconciliation</h1>
+            {/* Store Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -180,15 +180,15 @@ export default function ReconciliationHub() {
                 <Database className="w-5 h-5 text-text-muted" />
                 <h2 className="font-medium text-text">Cross-System Reconciliation</h2>
               </div>
-              <span className="text-xs text-text-muted">Opera vs Simphony</span>
+              <span className="text-xs text-text-muted">Source vs Settlement</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border bg-surface-2">
                     <th className="text-left uppercase-label text-text-faint py-3 px-4">Category</th>
-                    <th className="text-right uppercase-label text-text-faint py-3 px-4">Opera (FIN20)</th>
-                    <th className="text-right uppercase-label text-text-faint py-3 px-4">Simphony (POS)</th>
+                    <th className="text-right uppercase-label text-text-faint py-3 px-4">Source</th>
+                    <th className="text-right uppercase-label text-text-faint py-3 px-4">Settlement</th>
                     <th className="text-right uppercase-label text-text-faint py-3 px-4">Variance</th>
                     <th className="text-center uppercase-label text-text-faint py-3 px-4">Status</th>
                   </tr>
@@ -257,7 +257,7 @@ export default function ReconciliationHub() {
                 <h4 className="text-sm text-text font-medium">Continuous Reconciliation</h4>
               </div>
               <p className="text-xs text-text-muted">
-                Data flows from all systems throughout the day. Variances surface in real-time, not at midnight.
+                Data flows from POS, Tellermate, Nectar and Adyen throughout the day. Variances surface in real-time, not at midnight.
               </p>
             </div>
 
@@ -277,7 +277,7 @@ export default function ReconciliationHub() {
                 <h4 className="text-sm text-text font-medium">2.4 Hours Saved</h4>
               </div>
               <p className="text-xs text-text-muted">
-                Per night versus manual reconciliation. Dave reviews exceptions, not spreadsheets.
+                Per store per day versus manual reconciliation. Priya reviews exceptions, not spreadsheets.
               </p>
             </div>
           </div>

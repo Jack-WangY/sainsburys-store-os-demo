@@ -17,53 +17,53 @@ import {
   Building2,
 } from 'lucide-react'
 
-// Properties with status
+// Stores with status
 const properties = [
-  { id: 'white-city', name: 'White City House', abbr: 'WCH', status: 'ready' },
-  { id: 'shoreditch', name: 'Shoreditch House', abbr: 'SHO', status: 'ready' },
-  { id: 'soho-farmhouse', name: 'Soho Farmhouse', abbr: 'SFM', status: 'ready' },
-  { id: '180-house', name: '180 House', abbr: '180', status: 'exception' },
-  { id: 'electric-house', name: 'Electric House', abbr: 'ELC', status: 'ready' },
-  { id: 'dean-street', name: 'Dean Street', abbr: 'DST', status: 'ready' },
-  { id: 'little-house', name: 'Little House Mayfair', abbr: 'LHM', status: 'ready' },
-  { id: 'greek-street', name: '40 Greek Street', abbr: 'GRK', status: 'ready' },
-  { id: 'the-ned', name: 'The Ned', abbr: 'NED', status: 'pending' },
+  { id: 'potters-bar', name: "Sainsbury's Potters Bar", abbr: 'PTB', status: 'ready' },
+  { id: 'nine-elms', name: "Sainsbury's Nine Elms", abbr: 'NEL', status: 'ready' },
+  { id: 'kings-cross', name: "Sainsbury's Local King's Cross", abbr: 'KGX', status: 'ready' },
+  { id: 'whitechapel', name: "Sainsbury's Whitechapel", abbr: 'WCH', status: 'exception' },
+  { id: 'cromwell-road', name: "Sainsbury's Cromwell Road", abbr: 'CRM', status: 'ready' },
+  { id: 'holborn', name: "Sainsbury's Local Holborn", abbr: 'HOL', status: 'ready' },
+  { id: 'fulham-wharf', name: "Sainsbury's Fulham Wharf", abbr: 'FUL', status: 'ready' },
+  { id: 'argos-stratford', name: 'Argos Stratford (in-store)', abbr: 'ARG', status: 'ready' },
+  { id: 'brighton-marina', name: "Sainsbury's Brighton Marina", abbr: 'BRM', status: 'pending' },
 ]
 
 // Exception-first data structure
 const closeStatus = [
-  { area: 'Room Revenue', system: 'Opera', status: 'validated', amount: 127420 },
-  { area: 'F&B Reconciliation', system: 'Simphony', status: 'validated', amount: 89500 },
-  { area: 'Health Club', system: 'Book4Time', status: 'exception', amount: 14380, exception: { variance: 47, note: 'Book4Time shows £14,427 settled. Adyen reports £14,380 received. Timing difference flagged.' } },
-  { area: 'Cinema & Events', system: 'Veezi', status: 'validated', amount: 8240 },
-  { area: 'Comps & Allowances', system: 'Manual Review', status: 'validated', amount: 9740 },
+  { area: 'Grocery Tills', system: 'Symphony POS', status: 'validated', amount: 142380 },
+  { area: 'Fresh & Ambient', system: 'Tellermate', status: 'validated', amount: 58420 },
+  { area: 'Argos in-store', system: 'Argos OMS', status: 'exception', amount: 18640, exception: { variance: 312, note: "Argos OMS shows £18,952 settled. Main till feed reports £18,640 received. £312 timing variance flagged on click-and-collect handover." } },
+  { area: 'Fuel & Online', system: 'Forecourt + GOL', status: 'validated', amount: 41280 },
+  { area: 'Nectar Redemptions', system: 'Nectar Engine', status: 'validated', amount: 7240 },
 ]
 
 const oracleJournals = [
-  { ref: 'JE-7841', title: 'Room Revenue Journal', properties: 9, amount: 127420, status: 'posted' },
-  { ref: 'JE-7842', title: 'F&B Net Sales Journal', properties: 9, amount: 87240, status: 'posted' },
-  { ref: 'JE-7843', title: 'Cinema & Gym Revenue', properties: 6, amount: 14380, status: 'pending' },
-  { ref: 'JE-7844', title: 'Comps & Allowances', properties: 9, amount: 9740, status: 'posted' },
+  { ref: 'JE-7841', title: 'Net Sales Journal', properties: 9, amount: 142380, status: 'posted' },
+  { ref: 'JE-7842', title: 'Fresh & Ambient COGS', properties: 9, amount: 58420, status: 'posted' },
+  { ref: 'JE-7843', title: 'Argos & Fuel Revenue', properties: 6, amount: 18640, status: 'pending' },
+  { ref: 'JE-7844', title: 'Nectar & Promotions', properties: 9, amount: 7240, status: 'posted' },
 ]
 
 const floorCommentary = [
-  { time: '22:15', author: 'James Liu', role: 'Floor Manager', note: 'Private dining event for 28 guests ran late. Additional £340 bar spend captured after initial close.' },
-  { time: '23:40', author: 'James Liu', role: 'Floor Manager', note: 'Spa closure due to maintenance. 3 treatments rescheduled. Comp breakfast offered to affected members.' },
-  { time: '00:15', author: 'Emma Park', role: 'Property GM', note: 'Approved spa comp adjustments. Book4Time timing variance expected to clear by morning settlement.' },
+  { time: '22:15', author: 'Priya Shah', role: 'Daily Audit Lead', note: 'Late delivery of fresh produce held back ambient putaway. Additional £1,240 wastage write-off captured after initial close.' },
+  { time: '23:40', author: 'Priya Shah', role: 'Daily Audit Lead', note: 'Self-checkout #4 offline for 90 minutes. 3 customers redirected to colleague till. No short-stock impact recorded.' },
+  { time: '00:15', author: 'Marcus Reid', role: 'Store Manager', note: 'Approved wastage adjustments. Argos timing variance on click-and-collect expected to clear by morning settlement.' },
 ]
 
 const initialMessages = [
-  { id: '1', content: 'Good evening, Dave. Night close initiated at 00:48 GMT. 9 properties queued.', sender: 'system' as const },
+  { id: '1', content: 'Good evening, Priya. Daily store audit initiated at 00:48 GMT. 9 stores queued.', sender: 'system' as const },
   { id: '2', content: '246 of 248 checks passed automatically. 2 items flagged for your review.', sender: 'system' as const },
-  { id: '3', content: 'Show me the Health Club exception.', sender: 'user' as const },
-  { id: '4', content: 'Health Club shows a £47 timing variance between Book4Time (£14,427) and Adyen settlement (£14,380). Floor manager noted spa maintenance caused 3 rescheduled treatments. Variance expected to clear by morning. Recommend: Approve with note.', sender: 'system' as const },
+  { id: '3', content: 'Show me the Argos in-store exception.', sender: 'user' as const },
+  { id: '4', content: 'Argos in-store shows a £312 timing variance between the Argos OMS (£18,952) and main till feed (£18,640). Daily Audit Lead noted a click-and-collect handover delay. Variance expected to clear by morning settlement. Recommend: Approve with note.', sender: 'system' as const },
 ]
 
 export default function NightAudit() {
   const [messages, setMessages] = useState(initialMessages)
   const [showValidated, setShowValidated] = useState(false)
   const [exceptionApproved, setExceptionApproved] = useState(false)
-  const [selectedProperty, setSelectedProperty] = useState('white-city')
+  const [selectedProperty, setSelectedProperty] = useState('whitechapel')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const currentProperty = properties.find(p => p.id === selectedProperty) || properties[0]
@@ -83,7 +83,7 @@ export default function NightAudit() {
 
     setTimeout(() => {
       let response = 'Acknowledged. I\'ve updated the audit log with your note.'
-      
+
       if (content.toLowerCase().includes('approve') || content.toLowerCase().includes('clear')) {
         response = 'Exception approved and logged. All areas now validated. Ready for close authorisation.'
         setExceptionApproved(true)
@@ -109,11 +109,11 @@ export default function NightAudit() {
 
   return (
     <div className="space-y-6">
-      {/* Property Selector & Status Strip */}
+      {/* Store Selector & Status Strip */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
         <div className="flex items-center gap-3">
-          <h1 className="font-serif text-2xl text-text">Revenue Audit</h1>
-          {/* Property Dropdown */}
+          <h1 className="font-serif text-2xl text-text">Daily Store Audit</h1>
+          {/* Store Dropdown */}
           <div className="relative">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -155,8 +155,8 @@ export default function NightAudit() {
       {/* Close Status Banner */}
       <div className={cn(
         "rounded-2xl p-6 border",
-        allClear 
-          ? "bg-green/10 border-green/30" 
+        allClear
+          ? "bg-green/10 border-green/30"
           : "bg-amber/10 border-amber/30"
       )}>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -180,13 +180,13 @@ export default function NightAudit() {
               </p>
             </div>
           </div>
-          <Button 
+          <Button
             size="lg"
             disabled={!allClear}
             className={cn(
               "px-8",
-              allClear 
-                ? "bg-green hover:bg-green/90 text-background" 
+              allClear
+                ? "bg-green hover:bg-green/90 text-background"
                 : "bg-surface-2 text-text-muted cursor-not-allowed"
             )}
           >
@@ -229,8 +229,8 @@ export default function NightAudit() {
                       <Button size="sm" variant="outline" className="text-xs flex-1">
                         View Details
                       </Button>
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         className="text-xs flex-1 bg-green hover:bg-green/90 text-background"
                         onClick={() => setExceptionApproved(true)}
                       >
@@ -245,7 +245,7 @@ export default function NightAudit() {
 
           {/* Validated Areas (Collapsible) */}
           <div className="bg-surface-1 border border-border rounded-2xl overflow-hidden">
-            <button 
+            <button
               onClick={() => setShowValidated(!showValidated)}
               className="w-full p-4 border-b border-border flex items-center justify-between hover:bg-surface-2 transition-colors"
             >
@@ -265,8 +265,8 @@ export default function NightAudit() {
             {showValidated && (
               <div className="p-4 space-y-2">
                 {closeStatus.filter(s => s.status === 'validated' || (s.status === 'exception' && exceptionApproved)).map((item) => (
-                  <div 
-                    key={item.area} 
+                  <div
+                    key={item.area}
                     className="flex items-center justify-between p-3 bg-surface-2 rounded-lg border border-green/20"
                   >
                     <div className="flex items-center gap-3">
@@ -281,11 +281,11 @@ export default function NightAudit() {
             )}
           </div>
 
-          {/* Oracle Fusion Status */}
+          {/* SAP S/4 HANA Status */}
           <div className="bg-surface-1 border border-border rounded-2xl overflow-hidden">
             <div className="p-4 border-b border-border">
               <div className="flex items-center justify-between">
-                <h2 className="font-medium text-text">Oracle Fusion Journals</h2>
+                <h2 className="font-medium text-text">SAP S/4 HANA Journals</h2>
                 <span className="text-xs text-text-muted">{postedJournals} of {oracleJournals.length} posted</span>
               </div>
             </div>
@@ -307,7 +307,7 @@ export default function NightAudit() {
                     )}
                     <div>
                       <span className="text-sm text-text">{journal.title}</span>
-                      <span className="text-xs text-text-faint ml-2">{journal.ref} · {journal.properties} properties</span>
+                      <span className="text-xs text-text-faint ml-2">{journal.ref} · {journal.properties} stores</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -324,7 +324,7 @@ export default function NightAudit() {
 
         {/* Right column - Commentary & Chat */}
         <div className="space-y-6">
-          {/* Floor Manager Commentary */}
+          {/* Daily Audit Lead Commentary */}
           <div className="bg-surface-1 border border-border rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-4">
               <Activity className="w-5 h-5 text-blue" />
@@ -343,15 +343,15 @@ export default function NightAudit() {
             </div>
           </div>
 
-          {/* Auditor Chat */}
+          {/* Argos AI Chat */}
           <div className="bg-surface-1 border border-border rounded-2xl p-5">
-            <h3 className="font-medium text-text mb-4">Audit Assistant</h3>
+            <h3 className="font-medium text-text mb-4">Argos AI Audit Assistant</h3>
             <div className="h-[280px]">
               <ChatInterface
                 messages={messages}
                 onSend={handleSendMessage}
                 placeholder="Ask about exceptions..."
-                userInitials="D"
+                userInitials="P"
               />
             </div>
           </div>

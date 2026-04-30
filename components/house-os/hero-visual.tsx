@@ -142,12 +142,12 @@ function ConnectionLines() {
 // Animated data visualization nodes
 function DataNodes() {
   const nodes = [
-    { x: 15, y: 25, label: "London", value: "94%", delay: 0 },
-    { x: 75, y: 20, label: "NYC", value: "87%", delay: 0.2 },
-    { x: 85, y: 55, label: "Miami", value: "91%", delay: 0.4 },
-    { x: 25, y: 70, label: "Berlin", value: "89%", delay: 0.6 },
-    { x: 60, y: 75, label: "Hong Kong", value: "72%", delay: 0.8 },
-    { x: 45, y: 35, label: "Amsterdam", value: "96%", delay: 1 },
+    { x: 15, y: 25, label: "London", value: "104%", delay: 0 },
+    { x: 75, y: 20, label: "Manchester", value: "97%", delay: 0.2 },
+    { x: 85, y: 55, label: "Bristol", value: "92%", delay: 0.4 },
+    { x: 25, y: 70, label: "Leeds", value: "101%", delay: 0.6 },
+    { x: 60, y: 75, label: "Brighton", value: "87%", delay: 0.8 },
+    { x: 45, y: 35, label: "Glasgow", value: "112%", delay: 1 },
   ]
 
   return (

@@ -5,14 +5,14 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { 
+import {
   ArrowRight,
   Clock,
   FileText,
-  Users,
+  Banknote,
   Building2,
-  Moon,
-  RefreshCw,
+  PackageX,
+  Truck,
   Database,
   AlertTriangle,
   } from 'lucide-react'
@@ -20,109 +20,112 @@ import {
 // Key impact stats - large prominent cards
 const impactStats = [
   {
-    value: '3',
-    label: 'Hours Nightly',
-    sublabel: 'Up to 3 hours manual close',
+    value: '11 days',
+    label: 'Period-End Close',
+    sublabel: 'Finance team works late, every cycle',
   },
   {
     value: '4',
     label: 'Systems',
-    sublabel: 'Fragmented integration',
+    sublabel: 'POS, SAP, Manhattan WMS, supplier portals',
   },
   {
-    value: '1',
-    label: 'Person',
-    sublabel: 'Single point of failure',
+    value: '600+',
+    label: 'Stores',
+    sublabel: 'Reconciled by hand each period',
   },
   {
-    value: '0',
-    label: 'Audit Trail',
-    sublabel: 'No visibility',
+    value: '£2.1B',
+    label: 'Annual Shrink',
+    sublabel: 'UK grocery industry estimate',
   },
 ]
 
 // Timeline events - 6 stages with pain points
 const timelineEvents = [
   {
-    id: 'verify-outlet',
-    time: '23:00',
-    label: 'Verify Outlet Closure',
-    description: 'The night supervisor confirms that all hotel outlets have been closed and no more transactions need to be entered.',
-    painPoints: ['Inconsistent processes across sites, undocumented'],
-    icon: Users,
+    id: 'cash-office',
+    time: '06:00',
+    label: 'Cash Office Z-Read',
+    description: 'Each store cash office captures the previous day\'s Z-read from POS lanes and Tellermate counts, then sends totals to head office.',
+    painPoints: ['Tellermate and POS variances reconciled by hand across 600+ stores, no standard template'],
+    icon: Banknote,
   },
   {
-    id: 'initiate-close',
-    time: '23:30',
-    label: 'Initiate Hotel Operational Close',
-    description: 'Before any financial processing can begin, the night supervisor validates that the Hotel operations are fully captured.',
-    painPoints: ['Manual data entry into Opera with low integrity, cascading errors downstream'],
+    id: 'invoices',
+    time: '09:00',
+    label: 'Supplier Invoices Arrive',
+    description: 'Hundreds of supplier invoices land in the AP inbox. The team tries to match each one to its purchase order and the goods receipt note from the DC.',
+    painPoints: [
+      '3-way match (invoice vs PO vs GRN) done in spreadsheets',
+      '14-day SLA constantly missed; working capital trapped'
+    ],
+    icon: FileText,
+  },
+  {
+    id: 'shrinkage',
+    time: '11:00',
+    label: 'Shrinkage & Wastage Tally',
+    description: 'Store managers email through their shrink and wastage totals from the previous week, sometimes earlier.',
+    painPoints: [
+      'Up to 2-week lag between event and visibility',
+      'No category-level shrink trend; high-risk stores invisible until period end'
+    ],
+    icon: PackageX,
+  },
+  {
+    id: 'transfers',
+    time: '14:00',
+    label: 'Inter-company Transfers',
+    description: 'Inventory moves between RDCs, dark stores and supermarkets. Finance tries to mirror those flows in the ledger.',
+    painPoints: [
+      'Manual journal entries across DCs and stores',
+      'Mis-coded shrinkage hidden inside transfer adjustments'
+    ],
+    icon: Truck,
+  },
+  {
+    id: 'period-close',
+    time: '17:00',
+    label: 'Period-End Roll-up',
+    description: 'The daily audit team consolidates store totals, supplier accruals, and DC movements into the period-close pack.',
+    painPoints: [
+      '11 working days to close',
+      'Finance team works evenings and weekends to hit the deadline'
+    ],
     icon: Database,
   },
   {
-    id: 'consolidate-revenue',
-    time: '00:00',
-    label: 'Consolidate All Revenue Streams',
-    description: 'The night supervisor ensures no revenue source has been left out.',
+    id: 'cfo-pack',
+    time: '21:00',
+    label: 'CFO Board Pack',
+    description: 'Analysts pull the latest figures into the CFO\'s board pack so leadership can see how the period landed.',
     painPoints: [
-      'Unreliable Simphony to Opera feed creates silent gaps',
-      'Manual rekeying corrupts data integrity'
+      'Dashboards built manually in Excel each cycle',
+      'Numbers stale by the time the CFO reads them in the morning'
     ],
     icon: Building2,
-  },
-  {
-    id: 'reconciliation',
-    time: '01:00',
-    label: 'Reconciliation',
-    description: 'This is the core of the night audit. The night supervisor reconciles totals across all systems.',
-    painPoints: [
-      'Hours of manual line-by-line work across 4 systems',
-      'Single operator dependency with no backup',
-      'Failed integrations create correction work',
-      'No audit trail - logic lives in spreadsheets'
-    ],
-    icon: RefreshCw,
-  },
-  {
-    id: 'close-system',
-    time: '02:30',
-    label: 'Close the System',
-    description: 'Once reconciliation is complete and all figures stack up, the night supervisor closes out Opera and this will integrate with the ERP.',
-    painPoints: [],
-    icon: Moon,
-  },
-  {
-    id: 'reporting',
-    time: '03:00',
-    label: 'Reporting and Distribution',
-    description: "The night supervisor's final task is producing and distributing the day's reporting outputs.",
-    painPoints: [
-      'Manually compiled reports with weekly rollups',
-      'Different reports per site, no portfolio view',
-      'Leadership working from stale data'
-    ],
-    icon: FileText,
   },
 ]
 
 // Business impact - aligned with narrative ending
 const businessImpact = [
   {
-    title: 'Residual Uncertainty',
-    description: '"Did I catch everything? Was there something I missed?" The night supervisor leaves tired, never fully certain.',
+    title: 'Working Capital Trapped',
+    description: 'Unmatched supplier invoices sit in suspense for weeks. Cash that should fund growth is stuck in reconciliation queues.',
   },
   {
-    title: 'No Audit Trail',
-    description: 'The trail exists only in the night supervisor\'s memory and a spreadsheet only they understand. No one else can follow it.',
+    title: 'Shrinkage Discovered Too Late',
+    description: 'By the time category managers see a shrink spike, the cause has moved on. There is no chance to act in the moment.',
   },
   {
-    title: 'Prone to Human Error',
-    description: 'Manual data entry and reconciliation across multiple systems increases the risk of mistakes, omissions, and inconsistencies.',
+    title: 'Period-End Is a Fire Drill',
+    description: 'Eleven working days of late nights, manual journals and chased emails — close is an event, not a process the business can rely on.',
   },
 ]
 
 export default function TodayPage() {
-  const [selectedEvent, setSelectedEvent] = useState<string | null>('verify-outlet')
+  const [selectedEvent, setSelectedEvent] = useState<string | null>('cash-office')
 
   return (
     <div className="min-h-screen bg-[#CEC0B2]">
@@ -135,30 +138,19 @@ export default function TodayPage() {
             transition={{ duration: 0.6 }}
           >
             <span className="uppercase-label text-black mb-4 block">Where We Are Today</span>
-            
-            {/* Soho House Logo */}
+
+            {/* Sainsbury's wordmark */}
             <div className="flex flex-col items-center justify-center mb-6">
-              {/* 3x3 Grid Icon */}
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="mb-2">
-                <rect x="4" y="4" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-                <rect x="18" y="4" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-                <rect x="32" y="4" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-                <rect x="4" y="18" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-                <rect x="18" y="18" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-                <rect x="32" y="18" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-                <rect x="4" y="32" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-                <rect x="18" y="32" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-                <rect x="32" y="32" width="12" height="12" stroke="black" strokeWidth="1.5" fill="none" />
-              </svg>
-              <span className="text-sm tracking-[0.3em] text-black font-medium">SOHO HOUSE</span>
+              <span className="font-serif text-3xl tracking-wide text-black">Sainsbury&apos;s</span>
+              <span className="text-xs tracking-[0.3em] text-black/60 font-medium mt-1">STORE OS</span>
             </div>
-            
+
             <h1 className="font-serif text-4xl md:text-5xl text-black mb-4">
-              The Revenue Audit Challenge
+              The Period-Close Challenge
             </h1>
             <p className="text-lg text-black/70 max-w-2xl mx-auto">
-              Every night across each property, one person manually closes the books. 
-              See how it impacts operations and why change is needed.
+              Every period across 600+ stores, the daily audit team manually closes the books.
+              See how it impacts finance and supply chain — and why change is needed.
             </p>
           </motion.div>
         </div>
@@ -202,14 +194,13 @@ export default function TodayPage() {
               <div className="p-6 border-b border-black/10">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
-                    <h2 className="font-serif text-2xl text-black mb-1">A Night in the Life</h2>
+                    <h2 className="font-serif text-2xl text-black mb-1">A Day in the Life of Period Close</h2>
                     <p className="text-sm text-black/60">Click any event to explore what happens</p>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Clock className="w-4 h-4 text-black/60" />
-                    <span className="text-black/60">Process takes</span>
-                    <span className="text-red font-medium">up to 3 hours</span>
-                    <span className="text-black/60">nightly</span>
+                    <span className="text-black/60">Close cycle takes</span>
+                    <span className="text-red font-medium">11 working days</span>
                   </div>
                 </div>
               </div>
@@ -217,20 +208,20 @@ export default function TodayPage() {
               {/* Timeline */}
               <div className="p-6">
                 <p className="text-xs text-black/60 text-center mb-6">Click any step to see details</p>
-                
+
                 {/* Timeline Visual */}
                 <div className="relative">
                   {/* Horizontal connector line - behind nodes */}
                   <div className="absolute top-6 left-8 right-8 h-1 bg-black/20 rounded-full" />
-                  
+
                   {/* Event Nodes */}
                   <div className="relative flex justify-between pb-4">
                     {timelineEvents.map((event) => {
                       const Icon = event.icon
                       const isSelected = selectedEvent === event.id
-                      
+
                       const hasPainPoints = event.painPoints.length > 0
-                      
+
                       return (
                         <button
                           key={event.id}
@@ -241,18 +232,18 @@ export default function TodayPage() {
                           {isSelected && (
                             <div className="absolute -inset-4 bg-gold/20 rounded-full blur-xl -z-10" />
                           )}
-                          
+
                           {/* Pain label on selected */}
                           {isSelected && hasPainPoints && (
                             <span className="absolute -top-6 text-[10px] font-bold text-red uppercase tracking-wider">
                               Pain
                             </span>
                           )}
-                          
+
                           <div className={cn(
                             "w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all bg-white border-black/60",
-                            isSelected 
-                              ? "ring-4 ring-gold/50 scale-110 shadow-[0_0_20px_rgba(212,175,55,0.4)]" 
+                            isSelected
+                              ? "ring-4 ring-gold/50 scale-110 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
                               : "group-hover:scale-110 group-hover:shadow-lg"
                           )}>
                             <Icon className="w-5 h-5 text-black/70" />
@@ -284,7 +275,7 @@ export default function TodayPage() {
                       if (!event) return null
                       const Icon = event.icon
                       const hasPainPoints = event.painPoints.length > 0
-                      
+
                       return (
                         <div className="rounded-xl border p-5 bg-white/60 border-black/10 backdrop-blur-sm">
                           <div className="flex items-start gap-4">
@@ -330,7 +321,7 @@ export default function TodayPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h2 className="font-serif text-2xl text-black text-center mb-6">Impact on Soho House</h2>
+            <h2 className="font-serif text-2xl text-black text-center mb-6">CFO Pain Points</h2>
             <div className="grid md:grid-cols-3 gap-4">
               {businessImpact.map((point) => (
                 <div key={point.title} className="bg-white/50 border border-black/10 rounded-xl p-5">
@@ -352,7 +343,7 @@ export default function TodayPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <p className="text-xl text-black font-serif leading-relaxed mb-6">
-              &ldquo;The close is done. But it was effort-heavy, inconsistent, and entirely dependent on one person.&rdquo;
+              &ldquo;The period closes — eventually. But it costs us cash, blinds us to shrink, and burns out the team that holds it together.&rdquo;
             </p>
 
             <Link href="/story/beyond">

@@ -40,44 +40,44 @@ const proactiveNotifications = [
   {
     id: 1,
     type: "task-progress",
-    title: "Hong Kong Recovery Strategy",
-    message: "I've completed the competitive analysis and drafted 3 intervention options. Ready for your review.",
-    action: "Review now",
+    title: "Period Close - Day 3 of 5",
+    message: "I've reconciled 1,247 store ledgers and flagged 23 variances over £10k. Ready for your review before sign-off.",
+    action: "Review variances",
     priority: "critical",
     timestamp: "2 min ago",
     taskId: "UT001",
     progress: 70,
-    nextStep: "Review the proposed interventions and approve budget allocation",
-    targetClosure: "Friday, 5pm GMT",
+    nextStep: "Approve material variance write-offs and confirm period close",
+    targetClosure: "Friday, 5pm BST",
   },
   {
     id: 2,
     type: "insight",
-    title: "Revenue Opportunity Detected",
-    message: "Amsterdam's 18.9% growth pattern could be replicated in Berlin. I've identified 5 key success factors.",
+    title: "Working Capital Opportunity",
+    message: "Whitechapel's fresh ordering pattern is releasing £180k of trapped stock. The same playbook could free £2.1m across 12 inner-London stores.",
     action: "See analysis",
     priority: "medium",
     timestamp: "15 min ago",
-    impact: "+8-12% revenue potential",
+    impact: "+£2.1m working capital release",
   },
   {
     id: 3,
     type: "reminder",
-    title: "Q2 Board Deck - Action Needed",
-    message: "Slides 1-15 are ready. I need your feedback on the APAC section before finalizing the financial data.",
+    title: "Q1 Board Pack - Action Needed",
+    message: "Slides 1-15 are ready. I need your steer on the fuel margin commentary before finalising the P&L narrative.",
     action: "Review slides",
     priority: "high",
     timestamp: "1 hour ago",
     taskId: "UT002",
     progress: 55,
-    nextStep: "Provide feedback on draft slides or approve for final data integration",
-    targetClosure: "June 25, 2024",
+    nextStep: "Provide steer on draft commentary or approve for final consolidation",
+    targetClosure: "May 8, 2026",
   },
   {
     id: 4,
     type: "alert",
-    title: "Hong Kong Payment Gateway",
-    message: "Critical: Payment gateway outage affecting member billing. Finance team notified. I'm monitoring resolution progress.",
+    title: "POS Outage - Holborn",
+    message: "Critical: Tellermate sync failed at 06:14. £47k of takings unposted to SAP S/4 HANA. Treasury notified, I'm tracking resolution.",
     action: "View details",
     priority: "critical",
     timestamp: "Just now",
@@ -88,43 +88,43 @@ const proactiveNotifications = [
 const quickActions = [
   {
     icon: AlertTriangle,
-    label: "Hong Kong requires intervention",
-    prompt: "Give me a full update on Hong Kong. What's the current situation and what are my options?",
+    label: "What is holding period close today?",
+    prompt: "What is holding period close today? Walk me through the open items and what needs my sign-off.",
     color: "text-red-400",
     bgColor: "bg-red-500/10",
   },
   {
     icon: Target,
-    label: "Q2 board deck ready for review",
-    prompt: "Show me the Q2 board presentation progress and what needs my approval",
+    label: "Show me invoice exceptions over £10k",
+    prompt: "Show me invoice exceptions over £10k - which suppliers, which stores, and what's the cash impact?",
     color: "text-amber-400",
     bgColor: "bg-amber-500/10",
   },
   {
     icon: TrendingUp,
-    label: "Growth opportunity in Amsterdam",
-    prompt: "Tell me about Amsterdam's success factors and how we can replicate them in other properties",
+    label: "Top 5 stores by shrinkage today",
+    prompt: "Top 5 stores by shrinkage today - what's driving the loss and what action have store managers taken?",
     color: "text-green-400",
     bgColor: "bg-green-500/10",
   },
   {
     icon: Building2,
-    label: "Global portfolio overview",
-    prompt: "Give me a quick snapshot of how all properties are performing right now",
+    label: "Where is working capital trapped?",
+    prompt: "Where is working capital trapped right now - across stock, debtors, and supplier terms?",
     color: "text-blue-400",
     bgColor: "bg-blue-500/10",
   },
   {
     icon: DollarSign,
-    label: "Financial performance check",
-    prompt: "What are the key financial metrics I should know about today? Any concerns?",
+    label: "Today's cash position vs forecast",
+    prompt: "What's our cash position today vs forecast? Any drift I need to act on before tomorrow's treasury call?",
     color: "text-gold",
     bgColor: "bg-gold/10",
   },
   {
     icon: Users,
-    label: "Member insights",
-    prompt: "What's happening with our members? Any trends in satisfaction, churn, or new signups?",
+    label: "Nectar margin impact this week",
+    prompt: "How is the Nectar promotional margin tracking this week? Any baskets eroding profitability faster than planned?",
     color: "text-purple-400",
     bgColor: "bg-purple-500/10",
   },
@@ -236,7 +236,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-gold" />
                   </span>
                 </div>
-                <span className="text-sm font-medium text-foreground">Oracle is working</span>
+                <span className="text-sm font-medium text-foreground">Argos AI is working</span>
                 <Badge variant="outline" className="border-gold/30 bg-gold/10 text-gold text-xs">
                   {activeNotifications.length} updates
                 </Badge>
@@ -271,7 +271,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                         <span className="text-[10px] text-muted-foreground whitespace-nowrap">{notification.timestamp}</span>
                       </div>
                       <p className="text-xs text-muted-foreground leading-relaxed mb-2">{notification.message}</p>
-                      
+
                       {/* Progress indicator for tasks */}
                       {notification.progress && (
                         <div className="mb-2">
@@ -282,7 +282,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                           <Progress value={notification.progress} className="h-1" />
                         </div>
                       )}
-                      
+
                       {/* Next step and target closure */}
                       {notification.nextStep && (
                         <div className="text-[10px] text-muted-foreground mb-2">
@@ -295,7 +295,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                           Target closure: <span className="text-foreground">{notification.targetClosure}</span>
                         </div>
                       )}
-                      
+
                       <Button
                         variant="ghost"
                         size="sm"
@@ -318,7 +318,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                 </div>
               </motion.div>
             ))}
-            
+
             {activeNotifications.length > 3 && (
               <button
                 onClick={() => setIsOpen(true)}
@@ -356,7 +356,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
             {/* Tooltip */}
             <div className="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               <div className="bg-card border border-border rounded-lg px-3 py-2 text-xs text-foreground whitespace-nowrap shadow-lg">
-                Open Oracle AI Assistant
+                Open Argos AI Assistant
               </div>
             </div>
           </motion.div>
@@ -387,9 +387,9 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Oracle</h3>
+                  <h3 className="font-semibold text-foreground">Argos AI</h3>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground">Executive AI Assistant</span>
+                    <span className="text-xs text-muted-foreground">CFO Financial Co-Pilot</span>
                   </div>
                 </div>
               </div>
@@ -422,9 +422,9 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                     <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gold/10 mx-auto mb-4">
                       <Sparkles className="h-7 w-7 text-gold" />
                     </div>
-                    <h4 className="font-semibold text-foreground mb-2">Good afternoon</h4>
+                    <h4 className="font-semibold text-foreground mb-2">Good afternoon, Bláthnaid</h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      I&apos;ve been working on several initiatives while you were away. Here&apos;s what needs your attention:
+                      I&apos;ve been working through close, supplier exceptions and store performance overnight. Here&apos;s what needs your attention:
                     </p>
                   </div>
 
@@ -454,7 +454,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                         <span className="text-xs font-medium text-gold">Active Tasks</span>
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        I have {activeNotifications.length} items in progress. Ask me for updates on any of them.
+                        I have {activeNotifications.length} items in progress. Ask me for an update on any of them.
                       </p>
                     </div>
                   )}
@@ -502,7 +502,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                   <div className="rounded-2xl rounded-bl-md bg-surface-2 border border-border/50 px-4 py-3">
                     <div className="flex items-center gap-2">
                       <Loader2 className="h-4 w-4 animate-spin text-gold" />
-                      <span className="text-sm text-muted-foreground">Analyzing data...</span>
+                      <span className="text-sm text-muted-foreground">Analysing data...</span>
                     </div>
                   </div>
                 </motion.div>
@@ -525,7 +525,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about properties, financials, tasks..."
+                  placeholder="Ask about close, stores, suppliers, cash..."
                   disabled={isLoading}
                   className="flex-1 rounded-xl border border-border/50 bg-surface-2/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-gold/50 focus:outline-none focus:ring-1 focus:ring-gold/30 disabled:opacity-50"
                 />
@@ -539,7 +539,7 @@ export function OracleChat({ defaultOpen = false }: OracleChatProps) {
               </form>
               <div className="mt-2 flex items-center justify-center gap-1 text-[10px] text-muted-foreground">
                 <div className="flex h-1.5 w-1.5 rounded-full bg-green" />
-                <span>Connected to live Soho House data · 42 properties</span>
+                <span>Connected to live Sainsbury&apos;s data · 1,450 stores · SAP S/4 HANA</span>
               </div>
             </div>
           </motion.div>

@@ -6,19 +6,19 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
-import { Eye, EyeOff, Building2 } from 'lucide-react'
+import { Eye, EyeOff, Building2, ShoppingBasket, Truck, Receipt } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { HouseOSProvider, useHouseOS, getRoleDefaultRoute, type UserRole } from '@/lib/house-os-context'
 
 // Floating orb component matching hero visual
-function FloatingOrb({ 
-  delay = 0, 
-  duration = 20, 
-  size = 300, 
+function FloatingOrb({
+  delay = 0,
+  duration = 20,
+  size = 300,
   color = "rgba(201,168,76,0.08)",
   startX = 0,
   startY = 0,
-}: { 
+}: {
   delay?: number
   duration?: number
   size?: number
@@ -145,90 +145,95 @@ function ConnectionLines() {
   )
 }
 
-// Data nodes showing property status
+// Data nodes showing store status across the estate
 function DataNodes() {
   const nodes = [
-    { x: 20, y: 25, label: "Soho House London", status: "online" },
-    { x: 70, y: 35, label: "76 Dean Street", status: "online" },
-    { x: 35, y: 65, label: "Shoreditch House", status: "online" },
-    { x: 75, y: 70, label: "White City House", status: "audit" },
+    { x: 20, y: 25, label: "Whitechapel Superstore", status: "online", icon: ShoppingBasket },
+    { x: 70, y: 35, label: "Holborn Local", status: "online", icon: ShoppingBasket },
+    { x: 35, y: 65, label: "Tamworth DC", status: "online", icon: Truck },
+    { x: 75, y: 70, label: "Camden Local", status: "audit", icon: Receipt },
   ]
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {nodes.map((node, i) => (
-        <motion.div
-          key={i}
-          className="absolute"
-          style={{ left: `${node.x}%`, top: `${node.y}%` }}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1 + i * 0.2, ease: "backOut" }}
-        >
+      {nodes.map((node, i) => {
+        const Icon = node.icon
+        return (
           <motion.div
-            className="absolute inset-0 rounded-full border border-gold/20"
-            style={{ width: 40, height: 40, marginLeft: -20, marginTop: -20 }}
-            animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0, 0.4] }}
-            transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
-          />
-          <div className="relative flex flex-col items-center">
-            <div className={cn(
-              "w-2 h-2 rounded-full shadow-lg",
-              node.status === "online" ? "bg-status-success shadow-status-success/30" : "bg-gold shadow-gold/30"
-            )} />
-            <motion.div 
-              className="absolute top-4 whitespace-nowrap"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 1.5 + i * 0.2 }}
-            >
-              <span className="text-[9px] text-text-muted/70">{node.label}</span>
-            </motion.div>
-          </div>
-        </motion.div>
-      ))}
+            key={i}
+            className="absolute"
+            style={{ left: `${node.x}%`, top: `${node.y}%` }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1 + i * 0.2, ease: "backOut" }}
+          >
+            <motion.div
+              className="absolute inset-0 rounded-full border border-gold/20"
+              style={{ width: 40, height: 40, marginLeft: -20, marginTop: -20 }}
+              animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0, 0.4] }}
+              transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
+            />
+            <div className="relative flex flex-col items-center">
+              <div className={cn(
+                "w-6 h-6 rounded-full flex items-center justify-center shadow-lg",
+                node.status === "online" ? "bg-status-success/20 shadow-status-success/30 text-status-success" : "bg-gold/20 shadow-gold/30 text-gold"
+              )}>
+                <Icon className="w-3 h-3" />
+              </div>
+              <motion.div
+                className="absolute top-8 whitespace-nowrap"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 1.5 + i * 0.2 }}
+              >
+                <span className="text-[9px] text-text-muted/70">{node.label}</span>
+              </motion.div>
+            </div>
+          </motion.div>
+        )
+      })}
     </div>
   )
 }
 
 const demoRoles = [
   {
-    id: 'floor',
-    label: 'Floor Manager',
-    description: 'Shift summary, commentary capture, event logging',
-    email: 'james.liu@sohohouse.com',
+    id: 'cfo',
+    label: 'CFO — Bláthnaid Bergin',
+    description: 'See period-close & working capital across 600 stores',
+    email: 'blathnaid.bergin@sainsburys.co.uk',
   },
   {
-    id: 'finance',
-    label: 'Night Supervisor',
-    description: 'Revenue audit workflow, reconciliation, Oracle posting',
-    email: 'dave@sohohouse.com',
-  },
-  {
-    id: 'gm',
-    label: 'Property GM',
-    description: 'Morning dashboard, performance, floor commentary',
-    email: 'emma.park@sohohouse.com',
+    id: 'auditor',
+    label: 'Daily Audit Lead — Priya Shah',
+    description: 'Run automated daily store audit',
+    email: 'priya.shah@sainsburys.co.uk',
   },
   {
     id: 'finance-ops',
-    label: 'Finance Director - Operations',
-    description: 'Cross-property patterns, variance tracking',
-    email: 'rachel.thompson@sohohouse.com',
+    label: 'Finance Ops — Rachel Thompson',
+    description: 'Continuous close + 3-way invoice match',
+    email: 'rachel.thompson@sainsburys.co.uk',
   },
   {
-    id: 'exco',
-    label: 'Executive',
-    description: 'Portfolio overview, AI insights, full traceability',
-    email: 'sarah.mitchell@sohohouse.com',
+    id: 'gm',
+    label: 'Store Manager — Emma Park',
+    description: 'Whitechapel store dashboard',
+    email: 'emma.park@sainsburys.co.uk',
+  },
+  {
+    id: 'floor',
+    label: 'Supply-Chain Controller — James Liu',
+    description: 'Live shrinkage & DC flow',
+    email: 'james.liu@sainsburys.co.uk',
   },
 ]
 
 function LoginForm() {
   const router = useRouter()
   const { login } = useHouseOS()
-  const [selectedRole, setSelectedRole] = useState<string>('finance')
-  const [email, setEmail] = useState('dave@sohohouse.com')
+  const [selectedRole, setSelectedRole] = useState<string>('cfo')
+  const [email, setEmail] = useState('blathnaid.bergin@sainsburys.co.uk')
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -258,21 +263,21 @@ function LoginForm() {
       <div className="hidden lg:flex lg:w-[55%] relative bg-background flex-col items-center justify-center p-12 overflow-hidden">
         {/* Grid lines */}
         <GridLines />
-        
+
         {/* Floating orbs */}
         <FloatingOrb delay={0} duration={25} size={350} color="rgba(201,168,76,0.06)" startX={5} startY={15} />
         <FloatingOrb delay={2} duration={30} size={280} color="rgba(201,168,76,0.04)" startX={60} startY={55} />
         <FloatingOrb delay={4} duration={22} size={300} color="rgba(90,135,196,0.03)" startX={40} startY={5} />
-        
+
         {/* Particle field */}
         <ParticleField />
-        
+
         {/* Connection lines */}
         <ConnectionLines />
-        
+
         {/* Data nodes */}
         <DataNodes />
-        
+
         {/* Central glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none">
           <motion.div
@@ -291,16 +296,16 @@ function LoginForm() {
             }}
           />
         </div>
-        
+
         <div className="relative z-10 text-center max-w-md">
           {/* Animated Logo */}
-          <motion.div 
+          <motion.div
             className="flex items-center justify-center gap-4 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <motion.div 
+            <motion.div
               className="relative w-14 h-14"
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -312,42 +317,42 @@ function LoginForm() {
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               />
               <div className="absolute inset-1 rounded-lg bg-gradient-to-br from-gold to-gold-dim flex items-center justify-center shadow-lg shadow-gold/30">
-                <span className="text-background font-serif text-2xl font-bold">H</span>
+                <ShoppingBasket className="text-background w-6 h-6" />
               </div>
             </motion.div>
             <div className="text-left">
-              <h1 className="font-serif text-2xl text-text">House OS</h1>
-              <p className="text-xs text-text-muted">Unified Operations Platform</p>
+              <h1 className="font-serif text-2xl text-text">Store OS</h1>
+              <p className="text-xs text-text-muted">Unified Retail Operations Platform</p>
             </div>
           </motion.div>
 
-          <motion.h2 
+          <motion.h2
             className="font-serif text-4xl text-text leading-tight mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            The command centre for every Soho House
+            The command centre for every Sainsbury&apos;s store
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-text-muted text-sm leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            From remote revenue audits to portfolio intelligence, House OS brings all your property operations into one premium, AI-powered platform.
+            From daily store audits to portfolio-wide working capital, Store OS brings every store, depot and close cycle into one AI-powered platform.
           </motion.p>
         </div>
 
-        <motion.div 
+        <motion.div
           className="absolute bottom-8 text-xs text-text-faint"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.2 }}
         >
-          Soho House · United Kingdom · 9 Properties Connected
+          Sainsbury&apos;s · United Kingdom · 600+ Stores Connected
         </motion.div>
-        
+
         {/* Bottom fade */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </div>
@@ -358,13 +363,14 @@ function LoginForm() {
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-3 mb-10">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold to-gold-dim flex items-center justify-center">
-              <span className="text-background font-bold">H</span>
+              <ShoppingBasket className="text-background w-5 h-5" />
             </div>
-            <span className="font-serif text-lg text-text">House OS</span>
+            <span className="font-serif text-lg text-text">Store OS</span>
           </div>
 
           <h2 className="font-serif text-3xl text-text mb-2">Welcome back</h2>
-          <p className="text-sm text-text-muted mb-10">Sign in to House OS</p>
+          <p className="text-sm text-text-muted mb-10">Sign in to Store OS</p>
+          <p className="text-xs text-text-faint -mt-8 mb-10">One platform. Every store. Every close.</p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
@@ -376,7 +382,7 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="bg-surface-3 border-[rgba(255,255,255,0.07)] focus:border-gold-dim text-text h-12"
-                placeholder="you@sohohouse.com"
+                placeholder="you@sainsburys.co.uk"
               />
             </div>
 
@@ -426,7 +432,7 @@ function LoginForm() {
               className="w-full border-[rgba(255,255,255,0.12)] hover:bg-surface-3 text-text h-12 text-sm"
             >
               <Building2 className="w-4 h-4 mr-2" />
-              Sign in with Soho House SSO
+              Sign in with Sainsbury&apos;s SSO
             </Button>
           </form>
 
@@ -466,7 +472,11 @@ function LoginForm() {
           <div className="flex items-center justify-center gap-4 text-xs text-text-faint mt-8">
             <a href="#" className="hover:text-text-muted transition-colors">Forgot password?</a>
             <span className="text-border">|</span>
-            <a href="/story" className="hover:text-gold transition-colors">Read Dave&apos;s Story</a>
+            <a href="/story" className="hover:text-gold transition-colors">Read the briefing</a>
+          </div>
+
+          <div className="text-center text-[10px] text-text-faint mt-6">
+            Sainsbury&apos;s CFO Briefing Demo · Public &amp; mock data only
           </div>
         </div>
       </div>
