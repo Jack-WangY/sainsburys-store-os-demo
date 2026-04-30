@@ -249,8 +249,8 @@ export default function BeyondPage() {
           >
             <div className="relative h-64 md:h-80 w-full">
               <Image
-                src="/images/team-collaboration.jpg"
-                alt="Team collaborating with AI-powered dashboards"
+                src="/images/ai-future-abstract.jpg"
+                alt="Abstract visualization of AI-powered retail operating system"
                 fill
                 className="object-cover"
               />
