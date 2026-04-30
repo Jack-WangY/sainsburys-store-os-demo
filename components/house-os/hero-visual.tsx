@@ -281,7 +281,7 @@ export function AnimatedLogoMark() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.5 }}
         >
-          H
+          S
         </motion.span>
       </div>
       
