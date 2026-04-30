@@ -230,10 +230,15 @@ export default function BeyondPage() {
               their own view. One platform, many perspectives, no single point of failure.
             </p>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black border border-black">
+            <a 
+              href="https://v0-sainsbury-s-market-analysis.vercel.app/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black border border-black hover:bg-black/80 transition-colors"
+            >
               <Sparkles className="w-4 h-4 text-gold" />
               <span className="text-sm font-medium text-white">This is Sainsbury&apos;s Store OS</span>
-            </div>
+            </a>
           </motion.div>
         </div>
       </section>
