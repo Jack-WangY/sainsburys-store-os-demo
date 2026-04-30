@@ -230,15 +230,26 @@ export default function BeyondPage() {
               their own view. One platform, many perspectives, no single point of failure.
             </p>
 
-            <a 
-              href="https://v0-sainsbury-s-market-analysis.vercel.app/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black border border-black hover:bg-black/80 transition-colors"
-            >
-              <Sparkles className="w-4 h-4 text-gold" />
-              <span className="text-sm font-medium text-white">This is Sainsbury&apos;s Store OS</span>
-            </a>
+            <div className="flex flex-wrap gap-3">
+              <a 
+                href="https://v0-sainsbury-s-market-analysis.vercel.app/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black border border-black hover:bg-black/80 transition-colors"
+              >
+                <Sparkles className="w-4 h-4 text-gold" />
+                <span className="text-sm font-medium text-white">This is Sainsbury&apos;s Store OS</span>
+              </a>
+              <a 
+                href="https://v0-smart-tender-platform.vercel.app/auth/login" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black border border-black hover:bg-black/80 transition-colors"
+              >
+                <Sparkles className="w-4 h-4 text-gold" />
+                <span className="text-sm font-medium text-white">Smart Tender OS</span>
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
